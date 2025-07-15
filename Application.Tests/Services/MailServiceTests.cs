@@ -1,0 +1,32 @@
+using CertMailer.Application.Interfaces;
+using CertMailer.Application.Models;
+using CertMailer.Domain.Entities;
+
+namespace CertMailer.Application.Tests.Services;
+
+public class MailServiceTests
+{
+    private static readonly Participant SampleParticipant = new(
+        "Aleksander", "Pietrzak",
+        "aleksander.pietrzak@poczta.fm",
+        "Programowanie Java", new DateTime(2024, 10, 8));
+    
+    [Test]
+    public async Task TestSendEmailAsync()
+    {
+        var service = Testing.GetRequiredService<IEmailService>();
+        var request = new EmailMessageRequest(
+            SampleParticipant.Email,
+            $"{SampleParticipant.FirstName} {SampleParticipant.LastName}",
+            "Certyfikat ukończenia kursu",
+            $"""
+            <p>Cześć {SampleParticipant.FirstName}!<br>
+            Gratulujemy ukończenia kursu {SampleParticipant.CourseName}.<br>
+            W załączniku znajdziesz swój certyfikat.</p>
+            
+            <p>Pozdrawiamy,<br>
+            dpago.dev</p>
+            """);
+        await service.SendEmailAsync(request);
+    }
+}
