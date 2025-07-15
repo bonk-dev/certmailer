@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using CertMailer.Domain.Entities;
-using Infrastructure.Services;
+using CertMailer.Infrastructure.Services;
 using OfficeOpenXml;
 
 namespace Infrastructure.Tests.Services;

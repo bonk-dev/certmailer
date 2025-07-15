@@ -4,7 +4,7 @@ using CertMailer.Application.Models;
 using CertMailer.Domain.Entities;
 using OfficeOpenXml;
 
-namespace Infrastructure.Services;
+namespace CertMailer.Infrastructure.Services;
 
 public class ExcelService : IExcelService
 {
