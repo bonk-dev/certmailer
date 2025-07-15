@@ -1,6 +1,7 @@
 using CertMailer.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using OfficeOpenXml;
+using QuestPDF.Infrastructure;
 
 namespace CertMailer.Application.Tests;
 
@@ -13,6 +14,7 @@ public class Testing
     public void RunBefore()
     {
         ExcelPackage.License.SetNonCommercialPersonal("Dawid Pągowski");
+        QuestPDF.Settings.License = LicenseType.Community;
         
         var services = new ServiceCollection();
         services.AddInfrastructureServices();
