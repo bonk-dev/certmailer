@@ -1,0 +1,29 @@
+using System.Diagnostics;
+using CertMailer.Application.Interfaces;
+using CertMailer.Application.Models;
+using CertMailer.Domain.Entities;
+
+namespace CertMailer.Application.Tests.Services;
+
+public class CertificateServiceTests
+{
+    private static readonly Participant SampleParticipant = new(
+        "Aleksander", "Pietrzak",
+        "aleksander.pietrzak@poczta.fm",
+        "Programowanie Java", new DateTime(2024, 10, 8));
+    
+    [Test]
+    public async Task TestGeneratePdfStream()
+    {
+        var service = Testing.GetRequiredService<ICertificateService>();
+        var memoryStream = new MemoryStream();
+        service.GeneratePdf(SampleParticipant, memoryStream, CertificateOptions.Default);
+
+        var tmpPath = Path.GetTempFileName();
+        Debug.WriteLine(format: "Writing test PDF to {0}", tmpPath);
+        
+        await using var f = File.OpenWrite(tmpPath);
+        memoryStream.Position = 0L;
+        await memoryStream.CopyToAsync(f);
+    }
+}
