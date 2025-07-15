@@ -48,4 +48,24 @@ public class ExcelServiceTests
         
         Assert.That(result.Data, Is.EquivalentTo(expected));
     }
+    
+    [Test]
+    public async Task TestParseInvalidHeader()
+    {
+        var testFilePath = Path.Combine(Directory.GetCurrentDirectory(), "TestFiles", "participants_invalid_header.xlsx");
+        Debug.WriteLine("TestParseInvalidHeader: {0}", testFilePath);
+
+        await using var stream = File.OpenRead(testFilePath);
+        var service = Testing.GetRequiredService<IExcelService>();
+        var result = await service.ParseAsync(stream, "Participants");
+        
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.Success, "Parsing was successful");
+            Assert.IsNotEmpty(result.Errors, "Parsing ended without errors");
+        });
+        
+        Assert.That(result.Errors, 
+            Has.Some.EqualTo("Invalid header value in Participants (expected: Imię, was: Nazwisko)"));
+    }
 }
