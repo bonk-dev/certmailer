@@ -4,8 +4,8 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>CertMailer.Infrastructure</RootNamespace>
-        <AssemblyName>CertMailer.Infrastructure</AssemblyName>
+        <RootNamespace>CertMailer.NotificationService.Infrastructure</RootNamespace>
+        <AssemblyName>CertMailer.NotificationService.Infrastructure</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

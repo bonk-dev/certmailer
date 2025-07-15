@@ -1,11 +1,11 @@
-using CertMailer.Application.Interfaces;
-using CertMailer.Application.Models;
-using CertMailer.Application.Models.Settings;
+using CertMailer.NotificationService.Application.Interfaces;
+using CertMailer.NotificationService.Application.Models;
+using CertMailer.NotificationService.Application.Models.Settings;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace CertMailer.Infrastructure.Services;
+namespace CertMailer.NotificationService.Infrastructure.Services;
 
 public class SmtpEmailService : IEmailService
 {

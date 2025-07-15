@@ -1,8 +1,8 @@
-using CertMailer.Application.Interfaces;
-using CertMailer.Application.Models;
+using CertMailer.NotificationService.Application.Interfaces;
+using CertMailer.NotificationService.Application.Models;
 using CertMailer.Shared.Domain.Entities;
 
-namespace CertMailer.Application.Tests.Services;
+namespace CertMailer.NotificationService.Application.Tests.Services;
 
 public class MailServiceTests
 {

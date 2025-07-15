@@ -7,8 +7,8 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>CertMailer.Application.Tests</RootNamespace>
-        <AssemblyName>CertMailer.Application.Tests</AssemblyName>
+        <RootNamespace>CertMailer.NotificationService.Application.Tests</RootNamespace>
+        <AssemblyName>CertMailer.NotificationService.Application.Tests</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

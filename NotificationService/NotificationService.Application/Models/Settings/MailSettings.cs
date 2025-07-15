@@ -1,4 +1,4 @@
-namespace CertMailer.Application.Models.Settings;
+namespace CertMailer.NotificationService.Application.Models.Settings;
 
 public class MailSettings
 {

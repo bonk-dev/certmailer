@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Application", "NotificationService.Application\NotificationService.Application.csproj", "{A9C0C804-4F50-4B3D-AE14-7929A487B689}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Application", "NotificationService\NotificationService.Application\NotificationService.Application.csproj", "{A9C0C804-4F50-4B3D-AE14-7929A487B689}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Infrastructure", "NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{A8FEACA8-D4B8-470D-BB24-FAF2D08B3ADE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Infrastructure", "NotificationService\NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{A8FEACA8-D4B8-470D-BB24-FAF2D08B3ADE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Application.Tests", "NotificationService.Application.Tests\NotificationService.Application.Tests.csproj", "{CA087FBC-1478-4E55-A9CD-627AAD688E6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Application.Tests", "NotificationService\NotificationService.Application.Tests\NotificationService.Application.Tests.csproj", "{CA087FBC-1478-4E55-A9CD-627AAD688E6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelParser.Application", "ExcelParser\ExcelParser.Application\ExcelParser.Application.csproj", "{BBBD3963-88A7-41E6-B92F-976EAD595CD6}"
 EndProject

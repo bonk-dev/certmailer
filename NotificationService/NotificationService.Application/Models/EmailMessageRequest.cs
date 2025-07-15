@@ -1,4 +1,4 @@
-namespace CertMailer.Application.Models;
+namespace CertMailer.NotificationService.Application.Models;
 
 public record EmailMessageRequest(
     string RecipientEmail, string RecipientName, 

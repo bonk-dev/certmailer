@@ -1,10 +1,8 @@
-using CertMailer.Infrastructure;
+using CertMailer.NotificationService.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OfficeOpenXml;
-using QuestPDF.Infrastructure;
 
-namespace CertMailer.Application.Tests;
+namespace CertMailer.NotificationService.Application.Tests;
 
 [SetUpFixture]
 public class Testing

@@ -1,10 +1,10 @@
-using CertMailer.Application.Interfaces;
-using CertMailer.Application.Models.Settings;
-using CertMailer.Infrastructure.Services;
+using CertMailer.NotificationService.Application.Interfaces;
+using CertMailer.NotificationService.Application.Models.Settings;
+using CertMailer.NotificationService.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CertMailer.Infrastructure;
+namespace CertMailer.NotificationService.Infrastructure;
 
 public static class DependencyInjection
 {

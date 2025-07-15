@@ -1,4 +1,4 @@
-namespace CertMailer.Application.Models;
+namespace CertMailer.NotificationService.Application.Models;
 
 public readonly struct EmailAttachment
 {
