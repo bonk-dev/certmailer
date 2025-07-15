@@ -96,7 +96,7 @@ public class ExcelService : IExcelService
             var validValue = ValidHeaderValues[i - 1];
             if (!validValue.Equals(cellValue, StringComparison.InvariantCultureIgnoreCase))
             {
-                return Result.Fail([$"Invalid header value in {ws.Name} (expected: {validValue}, was: {i})"]);
+                return Result.Fail([$"Invalid header value in {ws.Name} (expected: {validValue}, was: {cellValue})"]);
             }
         }
         
