@@ -12,6 +12,7 @@ public static class DependencyInjection
     {
         ExcelPackage.License.SetNonCommercialPersonal("Dawid Pągowski");
         services.AddScoped<IExcelService, ExcelService>();
+        services.AddSingleton<IJobStorage, InMemoryJobStorage>();
         return services;
     }
 }
