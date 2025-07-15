@@ -74,14 +74,14 @@ public class ExcelService : IExcelService
 
     private Result ValidateWorksheet(ExcelWorksheet ws)
     {
+        if (ws.Dimension == null || ws.Dimension.End.Row < 1)
+        {
+            return Result.Fail([$"Sheet {ws.Name} is empty"]);
+        }
+        
         if (ws.Dimension.End.Column < ValidHeaderValues.Length)
         {
             return Result.Fail([$"Not enough columns in {ws.Name}"]);
-        }
-
-        if (ws.Dimension.End.Row < 1)
-        {
-            return Result.Fail([$"Sheet {ws.Name} is empty"]);
         }
 
         for (var i = 1; i <= ValidHeaderValues.Length; ++i)
