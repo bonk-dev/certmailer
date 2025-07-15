@@ -15,6 +15,14 @@ public class MailServiceTests
     public async Task TestSendEmailAsync()
     {
         var service = Testing.GetRequiredService<IEmailService>();
+
+        var fakeCertificateBuffer = "not really a certificate"u8.ToArray();
+        var attachment = new EmailAttachment
+        {
+            FileName = $"{SampleParticipant.FirstName}_{SampleParticipant.LastName}.txt",
+            ContentType = "text/plain",
+            Data = fakeCertificateBuffer
+        };
         var request = new EmailMessageRequest(
             SampleParticipant.Email,
             $"{SampleParticipant.FirstName} {SampleParticipant.LastName}",
@@ -26,7 +34,8 @@ public class MailServiceTests
             
             <p>Pozdrawiamy,<br>
             dpago.dev</p>
-            """);
+            """,
+            [attachment]);
         await service.SendEmailAsync(request);
     }
 }
