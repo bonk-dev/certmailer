@@ -26,6 +26,12 @@ public class ExcelService : IExcelService
         return Parse(package, sheetName);
     }
 
+    public IResult<IEnumerable<Participant>> Parse(Memory<byte> buffer)
+    {
+        using var package = new ExcelPackage(buffer.AsStream());
+        return Parse(package);
+    }
+
     public IResult<IEnumerable<Participant>> Parse(Memory<byte> buffer, string sheetName)
     {
         using var package = new ExcelPackage(buffer.AsStream());
@@ -40,6 +46,22 @@ public class ExcelService : IExcelService
             return Result<IEnumerable<Participant>>.Fail([$"Sheet {sheetName} not found"]);
         }
 
+        return Parse(ws);
+    }
+    
+    private IResult<IEnumerable<Participant>> Parse(ExcelPackage package)
+    {
+        var ws = package.Workbook.Worksheets.FirstOrDefault();
+        if (ws == null)
+        {
+            return Result<IEnumerable<Participant>>.Fail(["Not sheets not found"]);
+        }
+
+        return Parse(ws);
+    }
+
+    private IResult<IEnumerable<Participant>> Parse(ExcelWorksheet ws)
+    {
         var r = ValidateWorksheet(ws);
         if (!r.Success)
         {
@@ -54,7 +76,7 @@ public class ExcelService : IExcelService
             var cells = ws.Cells[i, 1, i, ValidHeaderValues.Length];
             if (cells == null)
             {
-                return Result<IEnumerable<Participant>>.Fail([$"Invalid row in sheet {sheetName} (i: {i})"]);
+                return Result<IEnumerable<Participant>>.Fail([$"Invalid row in sheet {ws.Name} (i: {i})"]);
             }
 
             var name = cells.GetCellValue<string>();
