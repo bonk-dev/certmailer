@@ -1,6 +1,6 @@
-using CertMailer.Domain.Entities;
+using CertMailer.Shared.Domain.Entities;
 
-namespace CertMailer.Application.Interfaces;
+namespace CertMailer.ExcelParser.Application.Interfaces;
 
 public interface IExcelService
 {

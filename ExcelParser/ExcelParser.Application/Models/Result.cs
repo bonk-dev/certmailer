@@ -1,6 +1,6 @@
-using CertMailer.Application.Interfaces;
+using CertMailer.ExcelParser.Application.Interfaces;
 
-namespace CertMailer.Application.Models;
+namespace CertMailer.ExcelParser.Application.Models;
 
 public class Result : IResult
 {

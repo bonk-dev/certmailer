@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using CertMailer.Application.Interfaces;
-using CertMailer.Domain.Entities;
+using CertMailer.ExcelParser.Application.Interfaces;
+using CertMailer.Shared.Domain.Entities;
 
-namespace CertMailer.Application.Tests.Services;
+namespace CertMailer.ExcelParser.Application.Tests.Services;
 
 public class ExcelServiceTests
 {

@@ -12,7 +12,6 @@ public static class DependencyInjection
         this IServiceCollection services, 
         IConfiguration configuration)
     {
-        services.AddSingleton<IExcelService, ExcelService>();
         services.AddScoped<ICertificateService, CertificateService>();
 
         services.Configure<MailSettings>(configuration.GetRequiredSection("MailSettings"));

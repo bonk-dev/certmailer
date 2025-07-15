@@ -1,4 +1,4 @@
-namespace CertMailer.Application.Interfaces;
+namespace CertMailer.ExcelParser.Application.Interfaces;
 
 public interface IResult
 {

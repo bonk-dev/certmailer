@@ -1,7 +1,7 @@
 using System.Globalization;
-using CertMailer.Application.Interfaces;
-using CertMailer.Application.Models;
-using CertMailer.Domain.Entities;
+using CertMailer.ExcelParser.Application.Interfaces;
+using CertMailer.ExcelParser.Application.Models;
+using CertMailer.Shared.Domain.Entities;
 using OfficeOpenXml;
 
 namespace CertMailer.Infrastructure.Services;

@@ -1,5 +1,5 @@
 using CertMailer.Application.Models;
-using CertMailer.Domain.Entities;
+using CertMailer.Shared.Domain.Entities;
 
 namespace CertMailer.Application.Interfaces;
 

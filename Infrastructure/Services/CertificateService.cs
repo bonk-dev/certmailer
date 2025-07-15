@@ -1,6 +1,6 @@
 using CertMailer.Application.Interfaces;
 using CertMailer.Application.Models;
-using CertMailer.Domain.Entities;
+using CertMailer.Shared.Domain.Entities;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 

@@ -7,8 +7,9 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>CertMailer.Application.Tests</RootNamespace>
-        <AssemblyName>CertMailer.Application.Tests</AssemblyName>
+
+        <RootNamespace>CertMailer.ExcelParser.Application.Tests</RootNamespace>
+        <AssemblyName>CertMailer.ExcelParser.Application.Tests</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,11 +26,22 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\..\Shared\Shared.Domain\Shared.Domain.csproj" />
+      <ProjectReference Include="..\ExcelParser.Application\ExcelParser.Application.csproj" />
+      <ProjectReference Include="..\ExcelParser.Infrastructure\ExcelParser.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="appsettings.json">
+      <None Update="TestFiles\participants_empty.xlsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestFiles\participants_invalid_columns.xlsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestFiles\participants_invalid_header.xlsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestFiles\participants_valid.xlsx">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
