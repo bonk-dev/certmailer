@@ -2,6 +2,7 @@ using System.Globalization;
 using CertMailer.ExcelParser.Application.Interfaces;
 using CertMailer.ExcelParser.Application.Models;
 using CertMailer.Shared.Domain.Entities;
+using CommunityToolkit.HighPerformance;
 using OfficeOpenXml;
 
 namespace CertMailer.ExcelParser.Infrastructure.Services;
@@ -22,6 +23,12 @@ public class ExcelService : IExcelService
             .LoadAsync(stream)
             .ConfigureAwait(false);
 
+        return Parse(package, sheetName);
+    }
+
+    public IResult<IEnumerable<Participant>> Parse(Memory<byte> buffer, string sheetName)
+    {
+        using var package = new ExcelPackage(buffer.AsStream());
         return Parse(package, sheetName);
     }
 
