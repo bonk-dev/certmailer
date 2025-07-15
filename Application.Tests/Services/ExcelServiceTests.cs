@@ -88,4 +88,24 @@ public class ExcelServiceTests
         Assert.That(result.Errors, 
             Has.Some.EqualTo("Sheet Sheet1 is empty"));
     }
+    
+    [Test]
+    public async Task TestParseInvalidColumns()
+    {
+        var testFilePath = Path.Combine(Directory.GetCurrentDirectory(), "TestFiles", "participants_invalid_columns.xlsx");
+        Debug.WriteLine("TestParseInvalidColumns: {0}", testFilePath);
+
+        await using var stream = File.OpenRead(testFilePath);
+        var service = Testing.GetRequiredService<IExcelService>();
+        var result = await service.ParseAsync(stream, "Participants");
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Success, Is.False, "Parsing was successful");
+            Assert.That(result.Errors, Is.Not.Empty, "Parsing ended without errors");
+        });
+        
+        Assert.That(result.Errors, 
+            Has.Some.EqualTo("Not enough columns in Participants"));
+    }
 }
