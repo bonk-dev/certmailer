@@ -1,22 +1,19 @@
 using System.Diagnostics;
+using CertMailer.Application.Interfaces;
 using CertMailer.Domain.Entities;
-using CertMailer.Infrastructure.Services;
-using OfficeOpenXml;
 
-namespace Infrastructure.Tests.Services;
+namespace CertMailer.Application.Tests.Services;
 
 public class ExcelServiceTests
 {
     [Test]
     public async Task TestParseValid()
     {
-        ExcelPackage.License.SetNonCommercialPersonal("Dawid Pągowski");
-        
         var testFilePath = Path.Combine(Directory.GetCurrentDirectory(), "TestFiles", "participants_valid.xlsx");
         Debug.WriteLine("TestParseValid: {0}", args: testFilePath);
 
         await using var stream = File.OpenRead(testFilePath);
-        var service = new ExcelService();
+        var service = Testing.GetRequiredService<IExcelService>();
         var result = await service.ParseAsync(stream, sheetName: "Participants");
         
         Assert.Multiple(() =>
