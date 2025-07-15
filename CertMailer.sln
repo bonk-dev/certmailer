@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateGen.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateGen.Application.Tests", "CertificateGen\CertificateGen.Application.Tests\CertificateGen.Application.Tests.csproj", "{AD910C95-F14F-4886-A985-8AB9A534F858}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Application", "Shared\Shared.Application\Shared.Application.csproj", "{CB04BD28-436F-4B59-9F3B-3452840EFDDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +68,9 @@ Global
 		{AD910C95-F14F-4886-A985-8AB9A534F858}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD910C95-F14F-4886-A985-8AB9A534F858}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD910C95-F14F-4886-A985-8AB9A534F858}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB04BD28-436F-4B59-9F3B-3452840EFDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB04BD28-436F-4B59-9F3B-3452840EFDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB04BD28-436F-4B59-9F3B-3452840EFDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB04BD28-436F-4B59-9F3B-3452840EFDDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

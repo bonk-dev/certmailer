@@ -10,15 +10,18 @@ public class ParseOnJobAdded : INotificationHandler<JobAddedNotification>
     private readonly ILogger<ParseOnJobAdded> _logger;
     private readonly IExcelService _excelService;
     private readonly IJobStorage _storage;
+    private readonly IMessageBus _messageBus;
 
     public ParseOnJobAdded(
         ILogger<ParseOnJobAdded> logger, 
         IExcelService excelService,
-        IJobStorage storage)
+        IJobStorage storage,
+        IMessageBus messageBus)
     {
         _logger = logger;
         _excelService = excelService;
         _storage = storage;
+        _messageBus = messageBus;
     }
     
     public async Task Handle(JobAddedNotification notification, CancellationToken cancellationToken)
@@ -31,6 +34,10 @@ public class ParseOnJobAdded : INotificationHandler<JobAddedNotification>
         
         _logger.LogDebug("Job done: {0}, {1}", job.BatchId, job.Result.Success);
         
-        // TODO: Send to message bus
+        if (result is { Success: true, Data: not null })
+        {
+            _logger.LogDebug("Sending ExcelParsed event on message bus: {0}", job.BatchId);
+            await _messageBus.PublishExcelParsedAsync(job.BatchId, result.Data);
+        }
     }
 }

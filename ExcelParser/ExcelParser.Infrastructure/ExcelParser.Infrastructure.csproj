@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Shared\Shared.Application\Shared.Application.csproj" />
       <ProjectReference Include="..\ExcelParser.Application\ExcelParser.Application.csproj" />
     </ItemGroup>
 
@@ -16,6 +17,8 @@
       <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.4.0" />
       <PackageReference Include="EPPlus" Version="8.0.7" />
       <PackageReference Include="MailKit" Version="4.13.0" />
+      <PackageReference Include="MassTransit" Version="8.5.1" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.7" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.7" />
