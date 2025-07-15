@@ -18,8 +18,8 @@ public class ExcelServiceTests
         
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.Success, "Parsing was not successful");
-            Assert.IsEmpty(result.Errors, "Parsing ended with errors: " + string.Join(';', result.Errors));
+            Assert.That(result.Success, Is.True, "Parsing was not successful");
+            Assert.That(result.Errors, Is.Empty, "Parsing ended with errors: " + string.Join(';', result.Errors));
         });
         
         var expected = new Participant[]
@@ -61,8 +61,8 @@ public class ExcelServiceTests
         
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.Success, "Parsing was successful");
-            Assert.IsNotEmpty(result.Errors, "Parsing ended without errors");
+            Assert.That(result.Success, Is.False, "Parsing was successful");
+            Assert.That(result.Errors, Is.Not.Empty, "Parsing ended without errors");
         });
         
         Assert.That(result.Errors, 
@@ -81,8 +81,8 @@ public class ExcelServiceTests
         
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.Success, "Parsing was successful");
-            Assert.IsNotEmpty(result.Errors, "Parsing ended without errors");
+            Assert.That(result.Success, Is.False, "Parsing was successful");
+            Assert.That(result.Errors, Is.Not.Empty, "Parsing ended without errors");
         });
         
         Assert.That(result.Errors, 
