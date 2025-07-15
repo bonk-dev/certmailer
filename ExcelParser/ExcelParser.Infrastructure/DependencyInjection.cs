@@ -1,5 +1,5 @@
 using CertMailer.ExcelParser.Application.Interfaces;
-using CertMailer.Infrastructure.Services;
+using CertMailer.ExcelParser.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CertMailer.ExcelParser.Infrastructure;
