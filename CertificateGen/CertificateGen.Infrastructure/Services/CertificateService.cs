@@ -1,10 +1,10 @@
-using CertMailer.Application.Interfaces;
-using CertMailer.Application.Models;
+using CertMailer.CertificateGen.Application.Interfaces;
+using CertMailer.CertificateGen.Application.Models;
 using CertMailer.Shared.Domain.Entities;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
-namespace CertMailer.Infrastructure.Services;
+namespace CertMailer.CertificateGen.Infrastructure.Services;
 
 public class CertificateService : ICertificateService
 {

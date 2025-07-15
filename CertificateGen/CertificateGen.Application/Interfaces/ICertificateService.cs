@@ -1,7 +1,7 @@
-using CertMailer.Application.Models;
+using CertMailer.CertificateGen.Application.Models;
 using CertMailer.Shared.Domain.Entities;
 
-namespace CertMailer.Application.Interfaces;
+namespace CertMailer.CertificateGen.Application.Interfaces;
 
 public interface ICertificateService
 {

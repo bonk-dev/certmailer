@@ -14,6 +14,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelParser.Application.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelParser.Infrastructure", "ExcelParser\ExcelParser.Infrastructure\ExcelParser.Infrastructure.csproj", "{D0C574F5-86B8-4BB2-AFCC-E36388104DF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateGen.Application", "CertificateGen\CertificateGen.Application\CertificateGen.Application.csproj", "{CD8E89AE-E62F-4169-A6DF-DC9F2E9310F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateGen.Infrastructure", "CertificateGen\CertificateGen.Infrastructure\CertificateGen.Infrastructure.csproj", "{D29203B2-A1D9-4587-A55F-4E6E791099F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateGen.Application.Tests", "CertificateGen\CertificateGen.Application.Tests\CertificateGen.Application.Tests.csproj", "{AD910C95-F14F-4886-A985-8AB9A534F858}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +54,17 @@ Global
 		{D0C574F5-86B8-4BB2-AFCC-E36388104DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0C574F5-86B8-4BB2-AFCC-E36388104DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0C574F5-86B8-4BB2-AFCC-E36388104DF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD8E89AE-E62F-4169-A6DF-DC9F2E9310F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD8E89AE-E62F-4169-A6DF-DC9F2E9310F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD8E89AE-E62F-4169-A6DF-DC9F2E9310F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD8E89AE-E62F-4169-A6DF-DC9F2E9310F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D29203B2-A1D9-4587-A55F-4E6E791099F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D29203B2-A1D9-4587-A55F-4E6E791099F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D29203B2-A1D9-4587-A55F-4E6E791099F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D29203B2-A1D9-4587-A55F-4E6E791099F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD910C95-F14F-4886-A985-8AB9A534F858}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD910C95-F14F-4886-A985-8AB9A534F858}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD910C95-F14F-4886-A985-8AB9A534F858}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD910C95-F14F-4886-A985-8AB9A534F858}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

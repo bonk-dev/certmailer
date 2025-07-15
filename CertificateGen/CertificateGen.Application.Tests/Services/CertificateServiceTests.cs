@@ -1,9 +1,9 @@
 using System.Diagnostics;
-using CertMailer.Application.Interfaces;
-using CertMailer.Application.Models;
+using CertMailer.CertificateGen.Application.Interfaces;
+using CertMailer.CertificateGen.Application.Models;
 using CertMailer.Shared.Domain.Entities;
 
-namespace CertMailer.Application.Tests.Services;
+namespace CertMailer.CertificateGen.Application.Tests.Services;
 
 public class CertificateServiceTests
 {

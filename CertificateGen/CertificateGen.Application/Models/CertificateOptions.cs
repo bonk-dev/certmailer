@@ -1,4 +1,4 @@
-namespace CertMailer.Application.Models;
+namespace CertMailer.CertificateGen.Application.Models;
 
 public readonly struct CertificateOptions
 {

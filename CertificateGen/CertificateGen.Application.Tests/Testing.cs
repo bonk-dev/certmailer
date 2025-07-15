@@ -1,27 +1,21 @@
-using CertMailer.Infrastructure;
-using Microsoft.Extensions.Configuration;
+using CertMailer.CertificateGen.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using OfficeOpenXml;
 using QuestPDF.Infrastructure;
 
-namespace CertMailer.Application.Tests;
+namespace CertMailer.CertificateGen.Application.Tests;
 
 [SetUpFixture]
 public class Testing
 {
-    private static IConfigurationRoot _configuration = null!;
     private static IServiceScopeFactory _scopeFactory = null!;
     
     [OneTimeSetUp]
     public void RunBefore()
     {
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true);
-        _configuration = builder.Build();
+        QuestPDF.Settings.License = LicenseType.Community;
         
         var services = new ServiceCollection();
-        services.AddInfrastructureServices(_configuration);
+        services.AddInfrastructureServices();
         
         _scopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>()!;
     }
