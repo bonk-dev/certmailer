@@ -1,4 +1,5 @@
 using CertMailer.Application.Interfaces;
+using CertMailer.Application.Models.Settings;
 using CertMailer.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,9 @@ public static class DependencyInjection
     {
         services.AddSingleton<IExcelService, ExcelService>();
         services.AddScoped<ICertificateService, CertificateService>();
+
+        services.Configure<MailSettings>(configuration.GetRequiredSection("MailSettings"));
+        services.AddScoped<IEmailService, SmtpEmailService>();
         return services;
     }
 }
