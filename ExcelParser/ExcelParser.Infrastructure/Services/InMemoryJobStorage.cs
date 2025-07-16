@@ -15,7 +15,7 @@ public class InMemoryJobStorage : IJobStorage
         _logger = logger;
     }
     
-    public async Task<Job> StoreFileAsync(Stream stream)
+    public async Task<Job> AddJobAsync(Stream stream)
     {
         var guid = Guid.NewGuid();
         _logger.LogDebug("Storing file {0}", guid);
