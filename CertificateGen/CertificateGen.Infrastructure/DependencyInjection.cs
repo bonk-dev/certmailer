@@ -1,11 +1,14 @@
 using CertMailer.CertificateGen.Application.Interfaces;
 using CertMailer.CertificateGen.Infrastructure.Bus;
 using CertMailer.CertificateGen.Infrastructure.Services;
+using CertMailer.Shared.Application.Services;
 using Hangfire;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QuestPDF.Infrastructure;
+using Shared.Infrastructure.Models;
+using Shared.Infrastructure.Services;
 
 namespace CertMailer.CertificateGen.Infrastructure;
 
@@ -17,7 +20,9 @@ public static class DependencyInjection
     {
         QuestPDF.Settings.License = LicenseType.Community;
         
-        services.Configure<RabbitMqTransportOptions>(configuration.GetRequiredSection("RabbitMq"));
+        services
+            .Configure<RabbitMqTransportOptions>(configuration.GetRequiredSection("RabbitMq"))
+            .Configure<FilesystemBlobStorageOptions>(configuration.GetRequiredSection("FilesystemBlobs"));
         services
             .AddSingleton<IJobStorage, InMemoryJobStorage>()
             .AddScoped<ICertificateService, CertificateService>()
@@ -39,7 +44,8 @@ public static class DependencyInjection
                     .UseInMemoryStorage();
             })
             .AddHangfireServer()
-            .AddSingleton<IBackgroundJobService, BackgroundJobService>();
+            .AddSingleton<IBackgroundJobService, BackgroundJobService>()
+            .AddScoped<IBlobStorage, FilesystemBlobStorage>();
         return services;
     }
 }
