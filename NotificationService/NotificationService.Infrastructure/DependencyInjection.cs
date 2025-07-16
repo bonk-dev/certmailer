@@ -32,6 +32,7 @@ public static class DependencyInjection
                     cfg.ConfigureEndpoints(ctx);
                 });
             })
+            .AddScoped<IMessageBus, MassTransitMessageBus>()
             .AddHangfire(cfg =>
             {
                 cfg

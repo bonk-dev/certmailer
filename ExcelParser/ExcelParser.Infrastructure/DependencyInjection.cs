@@ -1,4 +1,5 @@
 using CertMailer.ExcelParser.Application.Interfaces;
+using CertMailer.ExcelParser.Infrastructure.Consumers;
 using CertMailer.ExcelParser.Infrastructure.Services;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -20,9 +21,11 @@ public static class DependencyInjection
             .AddSingleton<IJobStorage, InMemoryJobStorage>()
             .AddMassTransit(x =>
             {
+                x.AddConsumer<EmailSentConsumer>();
+                
                 x.UsingRabbitMq((ctx, cfg) =>
                 {
-                    
+                    cfg.ConfigureEndpoints(ctx);
                 });
             })
             .AddScoped<IMessageBus, MassTransitMessageBus>();

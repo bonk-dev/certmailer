@@ -23,6 +23,7 @@ public class CertificateGeneratedConsumer : IConsumer<CertificateGenerated>
             context.Message.BatchId, context.Message.Certificate.CertificateId);
         await _mediator.Send(new SendCertificateEmailCommand
         {
+            BatchId = context.Message.BatchId,
             Participant = context.Message.Participant,
             CertificateId = context.Message.Certificate.CertificateId,
             CertificateUri = context.Message.Certificate.CertificateUri,

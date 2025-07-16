@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CertMailer.ExcelParser.WebUI.Endpoints;
 
 [ApiController]
-[Route("parser/status")]
+[Route("status")]
 public class StatusEndpoint : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -38,6 +38,6 @@ public class StatusEndpoint : ControllerBase
         {
             status = "uploaded";
         }
-        return Ok(new JobDto(job.BatchId, status, job.Result?.Errors));
+        return Ok(new JobDto(job.BatchId, job.JobStatus, job.Result?.Errors));
     }
 }

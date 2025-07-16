@@ -9,6 +9,7 @@ namespace CertMailer.NotificationService.Application.Commands;
 
 public class SendCertificateEmailCommand : IRequest
 {
+    public required Guid BatchId { get; set; }
     public required ParticipantDto Participant { get; set; }
     public required Guid CertificateId { get; set; }
     public required string CertificateUri { get; set; }
@@ -23,19 +24,22 @@ public class SendCertificateEmailCommandHandler : IRequestHandler<SendCertificat
     private readonly IBlobStorage _blobStorage;
     private readonly ITemplateRepository _templateRepository;
     private readonly ITemplateEngine _templateEngine;
+    private readonly IMessageBus _bus;
 
     public SendCertificateEmailCommandHandler(
         IEmailService emailService, 
         IBackgroundJobService jobClient,
         IBlobStorage blobStorage,
         ITemplateRepository templateRepository,
-        ITemplateEngine templateEngine)
+        ITemplateEngine templateEngine,
+        IMessageBus bus)
     {
         _emailService = emailService;
         _jobClient = jobClient;
         _blobStorage = blobStorage;
         _templateRepository = templateRepository;
         _templateEngine = templateEngine;
+        _bus = bus;
     }
 
     public async Task SendEmailAsync(SendCertificateEmailCommand request, CancellationToken cancellationToken)
@@ -60,6 +64,11 @@ public class SendCertificateEmailCommandHandler : IRequestHandler<SendCertificat
                     Data = stream 
                 }
             ]));
+        await _bus.SendEmailSentEventAsync(new EmailSent
+        {
+            BatchId = request.BatchId,
+            CertificateId = request.CertificateId
+        });
     }
 
     public Task Handle(SendCertificateEmailCommand request, CancellationToken cancellationToken)
