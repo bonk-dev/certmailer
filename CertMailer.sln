@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.WebUI",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Infrastructure", "Shared\Shared.Infrastructure\Shared.Infrastructure.csproj", "{2F5B891F-150E-47A8-8AB1-4411481DEA15}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Domain", "NotificationService\NotificationService.Domain\NotificationService.Domain.csproj", "{91BB8DE4-23EA-4F59-A781-D529310D7646}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,5 +98,9 @@ Global
 		{2F5B891F-150E-47A8-8AB1-4411481DEA15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F5B891F-150E-47A8-8AB1-4411481DEA15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F5B891F-150E-47A8-8AB1-4411481DEA15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91BB8DE4-23EA-4F59-A781-D529310D7646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91BB8DE4-23EA-4F59-A781-D529310D7646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91BB8DE4-23EA-4F59-A781-D529310D7646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91BB8DE4-23EA-4F59-A781-D529310D7646}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -18,9 +18,8 @@ public class MassTransitMessageBus : IMessageBus
     {
         await _endpoint.Publish(new CertificateGenerated
         {
-            To = participant.FirstName + ' ' + participant.LastName,
+            Participant = participant,
             BatchId = batchId,
-            Email = participant.Email,
             Certificate = new CertificateInfoDto
             {
                 CertificateId = certificateId,
