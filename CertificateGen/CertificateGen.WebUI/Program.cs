@@ -30,31 +30,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/testAddJob", async () =>
-{
-    await using var scope = app.Services.CreateAsyncScope();
-    var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-    var jobGuid = await mediator.Send(new AddJobCommand
-    {
-        ExcelParsedEvent = new ExcelParsed
-        {
-            BatchId = Guid.NewGuid(),
-            Participants =
-            [
-                new()
-                {
-                    FirstName = "Aleksander",
-                    LastName = "Pietrzak",
-                    Email = "aleksander.pietrzak@poczta.fm",
-                    CourseName = "Programowanie Java",
-                    CompletionDate = new DateTime(2024, 10, 8)
-                }
-            ]
-        }
-    });
-
-    return new TestAddJobResult(jobGuid);
-});
 app.MapGet("/api/status/{batchId}", async (Guid batchId) =>
 {
     await using var scope = app.Services.CreateAsyncScope();
