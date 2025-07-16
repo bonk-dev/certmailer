@@ -31,7 +31,7 @@ public class SmtpEmailService : IEmailService
         {
             foreach (var a in request.Attachments)
             {
-                builder.Attachments.Add(a.FileName, a.Data, ContentType.Parse(a.ContentType));
+                await builder.Attachments.AddAsync(a.FileName, a.Data, ContentType.Parse(a.ContentType));
             }
         }
         message.Body = builder.ToMessageBody();

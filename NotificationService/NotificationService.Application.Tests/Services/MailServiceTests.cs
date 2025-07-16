@@ -17,11 +17,12 @@ public class MailServiceTests
         var service = Testing.GetRequiredService<IEmailService>();
 
         var fakeCertificateBuffer = "not really a certificate"u8.ToArray();
+        using var memoryStream = new MemoryStream(fakeCertificateBuffer);
         var attachment = new EmailAttachment
         {
             FileName = $"{SampleParticipant.FirstName}_{SampleParticipant.LastName}.txt",
             ContentType = "text/plain",
-            Data = fakeCertificateBuffer
+            Data = memoryStream
         };
         var request = new EmailMessageRequest(
             SampleParticipant.Email,
