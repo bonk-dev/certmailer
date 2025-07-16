@@ -11,6 +11,7 @@ public class StatusEndpoint : ControllerBase
     {
         return Ok(new
         {
+            Service = "certificate-gen",
             Status = "healthy"
         });
     }

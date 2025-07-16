@@ -11,6 +11,7 @@ public class StatusEndpoint : ControllerBase
     {
         return Ok(new
         {
+            Service = "notification-service",
             Status = "healthy"
         });
     }

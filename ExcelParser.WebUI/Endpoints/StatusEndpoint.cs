@@ -21,6 +21,7 @@ public class StatusEndpoint : ControllerBase
     {
         return Ok(new
         {
+            Service = "excel-parser",
             Status = "healthy"
         });
     }
