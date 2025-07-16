@@ -47,11 +47,15 @@ public class ParseOnJobAdded : INotificationHandler<JobAddedNotification>
                 Email = p.Email,
                 CourseName = p.CourseName,
                 CompletionDate = p.CompletionDate
-            });
+            }).ToArray();
+            
+            job.JobStatus.ParticipantsParsed = participantDtos.Length;
+            await _storage.UpdateJobAsync(job);
+            
             var eventDto = new ExcelParsedDto
             {
                 BatchId = job.BatchId,
-                Participants = participantDtos.ToArray(),
+                Participants = participantDtos,
                 MailTemplateId = job.MailTemplateId,
                 SubjectTemplateId = job.SubjectTemplateId
             };
