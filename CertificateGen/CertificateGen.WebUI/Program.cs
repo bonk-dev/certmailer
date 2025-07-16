@@ -1,5 +1,6 @@
 using CertMailer.CertificateGen.Application;
 using CertMailer.CertificateGen.Application.Commands;
+using CertMailer.CertificateGen.Application.Models;
 using CertMailer.CertificateGen.Infrastructure;
 using CertMailer.Shared.Application.Dto;
 using Hangfire;
@@ -54,7 +55,26 @@ app.MapPost("/testAddJob", async () =>
 
     return new TestAddJobResult(jobGuid);
 });
+app.MapGet("/api/status/{batchId}", async (Guid batchId) =>
+{
+    await using var scope = app.Services.CreateAsyncScope();
+    var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+    var job = await mediator.Send(new GetJobCommand
+    {
+        BatchId = batchId
+    });
+
+    if (job == null)
+    {
+        // TODO: Return 404
+        throw new Exception();
+    }
+
+    return new JobStatus(job.JobStatus, job.Results);
+});
 
 app.Run();
 
 record TestAddJobResult(Guid Job);
+
+record JobStatus(Job.Status Status, IEnumerable<JobCertificateResult> Data);

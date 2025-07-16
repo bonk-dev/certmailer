@@ -31,26 +31,38 @@ public class GenerateOnJobAdded : INotificationHandler<JobAddedNotification>
             return;
         }
 
-        foreach (var p in job.ParticipantsDto)
-        {
-            var certResult = await _mediator.Send(new GenerateCertificateCommand
-            {
-                BatchId = notification.BatchId,
-                Participant = p
-            }, cancellationToken);
+        job.JobStatus = Job.Status.InProgress;
 
-            var result = new JobCertificateResult
+        try
+        {
+            foreach (var p in job.ParticipantsDto)
             {
-                Participant = p,
-                CertificateId = certResult.CertificateId,
-                CertificateUri = certResult.CertificateUri
-            };
-            job.Results.Add(result);
-            
-            _logger.LogDebug("Certificate generated (batch: {1}): {0}, uri: {2}", 
-                p.Email, job.BatchId, result.CertificateUri);
+                var certResult = await _mediator.Send(new GenerateCertificateCommand
+                {
+                    BatchId = notification.BatchId,
+                    Participant = p
+                }, cancellationToken);
+
+                var result = new JobCertificateResult
+                {
+                    Participant = p,
+                    CertificateId = certResult.CertificateId,
+                    CertificateUri = certResult.CertificateUri
+                };
+                job.Results.Add(result);
+
+                _logger.LogDebug("Certificate generated (batch: {1}): {0}, uri: {2}",
+                    p.Email, job.BatchId, result.CertificateUri);
+            }
         }
-        
+        catch
+        {
+            job.JobStatus = Job.Status.Failed;
+            throw;
+        }
+
+        job.JobStatus = Job.Status.Done;
+
         // TODO: UpdateJobCommand
     }
 }
