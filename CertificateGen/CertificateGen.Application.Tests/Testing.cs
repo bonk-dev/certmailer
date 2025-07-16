@@ -1,7 +1,6 @@
 using CertMailer.CertificateGen.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using QuestPDF.Infrastructure;
 
 namespace CertMailer.CertificateGen.Application.Tests;
 
@@ -14,8 +13,6 @@ public class Testing
     [OneTimeSetUp]
     public void RunBefore()
     {
-        QuestPDF.Settings.License = LicenseType.Community;
-        
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", true, true);
