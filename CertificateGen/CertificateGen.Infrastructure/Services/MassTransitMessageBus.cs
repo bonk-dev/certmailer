@@ -13,12 +13,14 @@ public class MassTransitMessageBus : IMessageBus
         _endpoint = endpoint;
     }
     
-    public async Task PublishCertificateGeneratedAsync(Guid batchId, string email, Guid certificateId, string certificateUri)
+    public async Task PublishCertificateGeneratedAsync(
+        Guid batchId, ParticipantDto participant, Guid certificateId, string certificateUri)
     {
         await _endpoint.Publish(new CertificateGenerated
         {
+            To = participant.FirstName + ' ' + participant.LastName,
             BatchId = batchId,
-            Email = email,
+            Email = participant.Email,
             Certificate = new CertificateInfoDto
             {
                 CertificateId = certificateId,

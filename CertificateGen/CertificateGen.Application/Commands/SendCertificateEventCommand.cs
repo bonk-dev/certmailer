@@ -28,7 +28,7 @@ public class SendCertificateEventCommandHandler : IRequestHandler<SendCertificat
         
         await _bus.PublishCertificateGeneratedAsync(
             request.BatchId, 
-            request.JobResult.Participant.Email,
+            request.JobResult.Participant,
             request.JobResult.CertificateId,
             request.JobResult.CertificateUri);
     }
