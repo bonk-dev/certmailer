@@ -13,6 +13,7 @@ public class SendCertificateEmailCommand : IRequest
     public required Guid CertificateId { get; set; }
     public required string CertificateUri { get; set; }
     public int? MailTemplateId { get; set; }
+    public int? SubjectTemplateId { get; set; }
 }
 
 public class SendCertificateEmailCommandHandler : IRequestHandler<SendCertificateEmailCommand>
@@ -39,17 +40,19 @@ public class SendCertificateEmailCommandHandler : IRequestHandler<SendCertificat
 
     public async Task SendEmailAsync(SendCertificateEmailCommand request, CancellationToken cancellationToken)
     {
-        var mailBody = await ApplyTemplateAsync(request, request.MailTemplateId);
+        var mailBody = await ApplyTemplateAsync(request, request.MailTemplateId, subject: false);
+        var subject = await ApplyTemplateAsync(request, request.SubjectTemplateId, subject: true);
 
         using var stream = new MemoryStream();
         await _blobStorage.DownloadAsync(request.CertificateUri, stream, cancellationToken);
         stream.Position = 0L;
         
-        // TODO: Allow custom subject
         await _emailService.SendEmailAsync(new EmailMessageRequest(
             request.Participant.Email,
             $"{request.Participant.FirstName} {request.Participant.LastName}",
-            "Certyfikat", mailBody, [
+            subject,
+            mailBody,
+            [
                 new EmailAttachment
                 {
                     FileName = request.CertificateId + ".pdf",
@@ -65,7 +68,8 @@ public class SendCertificateEmailCommandHandler : IRequestHandler<SendCertificat
         return Task.CompletedTask;
     }
     
-    private async Task<string> ApplyTemplateAsync(SendCertificateEmailCommand request, int? templateId)
+    private async Task<string> ApplyTemplateAsync(
+        SendCertificateEmailCommand request, int? templateId, bool subject)
     {
         MailTemplate template;
         if (templateId.HasValue)
@@ -76,7 +80,9 @@ public class SendCertificateEmailCommandHandler : IRequestHandler<SendCertificat
         }
         else
         {
-            template = await _templateRepository.GetDefaultTemplateAsync();
+            template = subject 
+                ? await _templateRepository.GetDefaultSubjectTemplateAsync()
+                : await _templateRepository.GetDefaultTemplateAsync();
         }
 
         var mailBody = _templateEngine.ApplyTemplate(template, new Dictionary<string, string>()

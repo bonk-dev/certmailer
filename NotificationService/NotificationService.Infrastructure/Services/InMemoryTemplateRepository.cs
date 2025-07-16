@@ -6,6 +6,7 @@ namespace CertMailer.NotificationService.Infrastructure.Services;
 public class InMemoryTemplateRepository : ITemplateRepository
 {
     private const int DefaultTemplateId = 1;
+    private const int DefaultSubjectTemplateId = 2;
     private readonly List<MailTemplate> _templates = [
         new MailTemplate
         {
@@ -19,11 +20,20 @@ public class InMemoryTemplateRepository : ITemplateRepository
                        <p>Pozdrawiamy,<br>
                        dpago.dev</p>
                        """
+        },
+        new MailTemplate
+        {
+            Id = DefaultSubjectTemplateId,
+            Name = "Domyślny (temat)",
+            Template = "Certyfikat za {CourseName}"
         }
     ]; 
     
     public async Task<MailTemplate> GetDefaultTemplateAsync() => 
         (await GetTemplateAsync(DefaultTemplateId))!;
+
+    public async Task<MailTemplate> GetDefaultSubjectTemplateAsync() => 
+        (await GetTemplateAsync(DefaultSubjectTemplateId))!;
 
     public Task<MailTemplate?> GetTemplateAsync(int id) => 
         Task.FromResult(_templates.SingleOrDefault(t => t.Id == id));
