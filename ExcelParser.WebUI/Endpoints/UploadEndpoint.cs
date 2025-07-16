@@ -1,3 +1,6 @@
+using CertMailer.ExcelParser.Application.Commands;
+using CertMailer.ExcelParser.Application.Dto;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CertMailer.ExcelParser.WebUI.Endpoints;
@@ -6,13 +9,26 @@ namespace CertMailer.ExcelParser.WebUI.Endpoints;
 [Route("parser/upload")]
 public class UploadEndpoint : ControllerBase
 {
-    public UploadEndpoint()
+    private readonly IMediator _mediator;
+
+    public UploadEndpoint(IMediator mediator)
     {
+        _mediator = mediator;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
+    [HttpPost("test")]
+    public async Task<IActionResult> OnPostTestAsync(
+        [FromForm] int? mailTemplateId, [FromForm] int? subjectTemplateId)
     {
-        throw new NotImplementedException();
+        await using var s = System.IO.File.OpenRead(
+            "/home/bonk/Programowanie/CertMailer-data/participants_valid.xlsx");
+        var command = new AddJobCommand
+        {
+            FileStream = s,
+            MailTemplateId = mailTemplateId,
+            SubjectTemplateId = subjectTemplateId
+        };
+        var addResult = await _mediator.Send(command);
+        return Ok(new JobDto(addResult, "uploaded"));
     }
 }

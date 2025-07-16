@@ -1,5 +1,7 @@
 using CertMailer.ExcelParser.Application.Commands;
+using CertMailer.ExcelParser.Application.Dto;
 using CertMailer.ExcelParser.Application.Interfaces;
+using CertMailer.Shared.Application.Dto;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -37,7 +39,23 @@ public class ParseOnJobAdded : INotificationHandler<JobAddedNotification>
         if (result is { Success: true, Data: not null })
         {
             _logger.LogDebug("Sending ExcelParsed event on message bus: {0}", job.BatchId);
-            await _messageBus.PublishExcelParsedAsync(job.BatchId, result.Data);
+
+            var participantDtos = result.Data.Select(p => new ParticipantDto
+            {
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                Email = p.Email,
+                CourseName = p.CourseName,
+                CompletionDate = p.CompletionDate
+            });
+            var eventDto = new ExcelParsedDto
+            {
+                BatchId = job.BatchId,
+                Participants = participantDtos.ToArray(),
+                MailTemplateId = job.MailTemplateId,
+                SubjectTemplateId = job.SubjectTemplateId
+            };
+            await _messageBus.PublishExcelParsedAsync(eventDto);
         }
     }
 }

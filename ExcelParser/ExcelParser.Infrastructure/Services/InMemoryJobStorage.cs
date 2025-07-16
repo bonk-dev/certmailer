@@ -1,4 +1,5 @@
 using System.Buffers;
+using CertMailer.ExcelParser.Application.Dto;
 using CertMailer.ExcelParser.Application.Interfaces;
 using CertMailer.ExcelParser.Application.Models;
 using Microsoft.Extensions.Logging;
@@ -15,18 +16,20 @@ public class InMemoryJobStorage : IJobStorage
         _logger = logger;
     }
     
-    public async Task<Job> AddJobAsync(Stream stream)
+    public async Task<Job> AddJobAsync(JobCreationDto jobCreationDto)
     {
         var guid = Guid.NewGuid();
         _logger.LogDebug("Storing file {0}", guid);
 
-        var buffer = MemoryPool<byte>.Shared.Rent((int)stream.Length);
-        _ = await stream.ReadAsync(buffer.Memory);
+        var buffer = MemoryPool<byte>.Shared.Rent((int)jobCreationDto.Stream.Length);
+        _ = await jobCreationDto.Stream.ReadAsync(buffer.Memory);
 
         var job = new Job
         {
             BatchId = guid,
             Data = buffer,
+            MailTemplateId = jobCreationDto.MailTemplateId,
+            SubjectTemplateId = jobCreationDto.SubjectTemplateId,
             Result = null
         };
         _storedFiles.Add(guid, job);

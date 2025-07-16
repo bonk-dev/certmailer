@@ -10,8 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen()
+    .AddControllers();
 
 builder.Services
     .AddInfrastructureServices(builder.Configuration)
@@ -28,18 +30,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/test", async () =>
-{
-    await using var scope = app.Services.CreateAsyncScope();
-    var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-    await using var s = File.OpenRead("/home/bonk/Programowanie/CertMailer-data/participants_valid.xlsx");
-    var command = new AddJobCommand
-    {
-        FileStream = s
-    };
-    var addResult = await mediator.Send(command);
-    return new JobDto(addResult, "uploaded");
-});
+app.MapControllers();
+
 app.MapGet("/api/status/{batchId}", async (Guid batchId) =>
 {
     await using var scope = app.Services.CreateAsyncScope();

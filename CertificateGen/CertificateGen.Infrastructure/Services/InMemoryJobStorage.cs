@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using CertMailer.CertificateGen.Application.Dto;
 using CertMailer.CertificateGen.Application.Interfaces;
 using CertMailer.CertificateGen.Application.Models;
 using CertMailer.Shared.Application.Dto;
@@ -16,15 +17,17 @@ public class InMemoryJobStorage : IJobStorage
         _logger = logger;
     }
     
-    public async Task<Job> AddJobAsync(Guid batchId, ParticipantDto[] participants)
+    public async Task<Job> AddJobAsync(CreateJobDto dto)
     {
         var job = new Job
         {
-            BatchId = batchId,
-            ParticipantsDto = participants
+            BatchId = dto.BatchId,
+            ParticipantsDto = dto.Participants,
+            MailTemplateId = dto.MailTemplateId,
+            SubjectTemplateId = dto.SubjectTemplateId
         };
-        return !_jobs.TryAdd(batchId, job) 
-            ? _jobs[batchId] 
+        return !_jobs.TryAdd(dto.BatchId, job) 
+            ? _jobs[dto.BatchId] 
             : job;
     }
 

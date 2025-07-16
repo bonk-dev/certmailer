@@ -1,3 +1,4 @@
+using CertMailer.CertificateGen.Application.Dto;
 using CertMailer.CertificateGen.Application.Interfaces;
 using CertMailer.Shared.Application.Dto;
 using MediatR;
@@ -24,9 +25,13 @@ public class AddJobCommandHandler : IRequestHandler<AddJobCommand, Guid>
     
     public async Task<Guid> Handle(AddJobCommand request, CancellationToken cancellationToken)
     {
-        var job = await _storage.AddJobAsync(
-            request.ExcelParsedEvent.BatchId, 
-            request.ExcelParsedEvent.Participants);
+        var job = await _storage.AddJobAsync(new CreateJobDto
+        {
+            BatchId = request.ExcelParsedEvent.BatchId, 
+            Participants = request.ExcelParsedEvent.Participants,
+            MailTemplateId = request.ExcelParsedEvent.MailTemplateId,
+            SubjectTemplateId = request.ExcelParsedEvent.SubjectTemplateId
+        });
         _ = _jobService.Enqueue(() => _mediator.Publish(new JobAddedNotification()
         {
             BatchId = job.BatchId

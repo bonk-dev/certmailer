@@ -1,6 +1,8 @@
-namespace CertMailer.Shared.Application.Dto;
+using CertMailer.Shared.Application.Dto;
 
-public class CertificateGenerated
+namespace CertMailer.CertificateGen.Application.Dto;
+
+public class CertificateGeneratedDto
 {
     public required Guid BatchId { get; set; }
     public required ParticipantDto Participant { get; set; }

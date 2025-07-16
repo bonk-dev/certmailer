@@ -1,3 +1,4 @@
+using CertMailer.CertificateGen.Application.Dto;
 using CertMailer.CertificateGen.Application.Interfaces;
 using CertMailer.Shared.Application.Dto;
 using MassTransit;
@@ -13,18 +14,15 @@ public class MassTransitMessageBus : IMessageBus
         _endpoint = endpoint;
     }
     
-    public async Task PublishCertificateGeneratedAsync(
-        Guid batchId, ParticipantDto participant, Guid certificateId, string certificateUri)
+    public async Task PublishCertificateGeneratedAsync(CertificateGeneratedDto dto)
     {
         await _endpoint.Publish(new CertificateGenerated
         {
-            Participant = participant,
-            BatchId = batchId,
-            Certificate = new CertificateInfoDto
-            {
-                CertificateId = certificateId,
-                CertificateUri = certificateUri
-            }
+            Participant = dto.Participant,
+            BatchId = dto.BatchId,
+            Certificate = dto.Certificate,
+            MailTemplateId = dto.MailTemplateId,
+            SubjectTemplateId = dto.SubjectTemplateId
         });
     }
 }

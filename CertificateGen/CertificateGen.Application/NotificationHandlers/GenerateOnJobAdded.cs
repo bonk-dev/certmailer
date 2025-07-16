@@ -69,7 +69,9 @@ public class GenerateOnJobAdded : INotificationHandler<JobAddedNotification>
                 await _mediator.Send(new SendCertificateEventCommand
                 {
                     BatchId = notification.BatchId,
-                    JobResult = result
+                    JobResult = result,
+                    MailTemplateId = job.MailTemplateId,
+                    SubjectTemplateId = job.SubjectTemplateId
                 }, cancellationToken);
             }
         }

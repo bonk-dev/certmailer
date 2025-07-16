@@ -1,8 +1,8 @@
-using CertMailer.Shared.Domain.Entities;
+using CertMailer.ExcelParser.Application.Dto;
 
 namespace CertMailer.ExcelParser.Application.Interfaces;
 
 public interface IMessageBus
 {
-    Task PublishExcelParsedAsync(Guid batchId, IEnumerable<Participant> participants);
+    Task PublishExcelParsedAsync(ExcelParsedDto excelParsedDto);
 }

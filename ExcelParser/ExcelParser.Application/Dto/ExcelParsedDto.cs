@@ -1,7 +1,9 @@
-namespace CertMailer.Shared.Application.Dto;
+using CertMailer.Shared.Application.Dto;
 
-public class ExcelParsed
-{ 
+namespace CertMailer.ExcelParser.Application.Dto;
+
+public class ExcelParsedDto
+{
     public required Guid BatchId { get; set; }
     public required ParticipantDto[] Participants { get; set; }
     public int? MailTemplateId { get; set; }

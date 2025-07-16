@@ -25,7 +25,9 @@ public class CertificateGeneratedConsumer : IConsumer<CertificateGenerated>
         {
             Participant = context.Message.Participant,
             CertificateId = context.Message.Certificate.CertificateId,
-            CertificateUri = context.Message.Certificate.CertificateUri
+            CertificateUri = context.Message.Certificate.CertificateUri,
+            MailTemplateId = context.Message.MailTemplateId,
+            SubjectTemplateId = context.Message.SubjectTemplateId
         });
     }
 }
