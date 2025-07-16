@@ -3,6 +3,7 @@ using CertMailer.NotificationService.Application.Models.Settings;
 using CertMailer.NotificationService.Infrastructure.Consumers;
 using CertMailer.NotificationService.Infrastructure.Services;
 using CertMailer.Shared.Application.Services;
+using Hangfire;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,6 @@ public static class DependencyInjection
     {
         services
             .Configure<MailSettings>(configuration.GetRequiredSection("MailSettings"))
-            .Configure<RabbitMqTransportOptions>(configuration.GetRequiredSection("RabbitMq"));
             .Configure<RabbitMqTransportOptions>(configuration.GetRequiredSection("RabbitMq"))
             .Configure<FilesystemBlobStorageOptions>(configuration.GetRequiredSection("FilesystemBlobs"));
         services
@@ -31,7 +31,17 @@ public static class DependencyInjection
                 {
                     cfg.ConfigureEndpoints(ctx);
                 });
-            });
+            })
+            .AddHangfire(cfg =>
+            {
+                cfg
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseInMemoryStorage();
+            })
+            .AddHangfireServer()
+            .AddSingleton<IBackgroundJobService, BackgroundJobService>()
             .AddScoped<IBlobStorage, FilesystemBlobStorage>();
         return services;
     }

@@ -1,5 +1,6 @@
 using CertMailer.NotificationService.Application;
 using CertMailer.NotificationService.Infrastructure;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services
     .AddOpenApi()
-    .AddInfrastructureServices(builder.Configuration);
     .AddInfrastructureServices(builder.Configuration)
     .AddApplicationServices();
 
@@ -17,6 +17,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapHangfireDashboard();
 }
 
 app.UseHttpsRedirection();

@@ -1,5 +1,7 @@
+using CertMailer.NotificationService.Application.Commands;
 using CertMailer.Shared.Application.Dto;
 using MassTransit;
+using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace CertMailer.NotificationService.Infrastructure.Consumers;
@@ -7,16 +9,24 @@ namespace CertMailer.NotificationService.Infrastructure.Consumers;
 public class CertificateGeneratedConsumer : IConsumer<CertificateGenerated>
 {
     private readonly ILogger<CertificateGeneratedConsumer> _logger;
+    private readonly IMediator _mediator;
 
-    public CertificateGeneratedConsumer(ILogger<CertificateGeneratedConsumer> logger)
+    public CertificateGeneratedConsumer(ILogger<CertificateGeneratedConsumer> logger, IMediator mediator)
     {
         _logger = logger;
+        _mediator = mediator;
     }
     
-    public Task Consume(ConsumeContext<CertificateGenerated> context)
+    public async Task Consume(ConsumeContext<CertificateGenerated> context)
     {
         _logger.LogDebug("Consuming CertificateGenerated: (batch: {0}) {1}", 
             context.Message.BatchId, context.Message.Certificate.CertificateId);
-        return Task.CompletedTask;
+        await _mediator.Send(new SendCertificateEmailCommand
+        {
+            To = context.Message.To,
+            Email = context.Message.Email,
+            CertificateId = context.Message.Certificate.CertificateId,
+            CertificateUri = context.Message.Certificate.CertificateUri
+        });
     }
 }
