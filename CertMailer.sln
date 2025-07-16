@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Domain"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelParser.Domain", "ExcelParser\ExcelParser.Domain\ExcelParser.Domain.csproj", "{4DD46305-53F9-476A-A53D-05695ECF6F1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{8DA77862-D65E-4E04-BC16-BB3826198611}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,5 +110,9 @@ Global
 		{4DD46305-53F9-476A-A53D-05695ECF6F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DD46305-53F9-476A-A53D-05695ECF6F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DD46305-53F9-476A-A53D-05695ECF6F1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DA77862-D65E-4E04-BC16-BB3826198611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DA77862-D65E-4E04-BC16-BB3826198611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DA77862-D65E-4E04-BC16-BB3826198611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DA77862-D65E-4E04-BC16-BB3826198611}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
