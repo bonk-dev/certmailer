@@ -1,5 +1,6 @@
 using CertMailer.NotificationService.Application.Interfaces;
 using CertMailer.NotificationService.Application.Models.Settings;
+using CertMailer.NotificationService.Infrastructure.Consumers;
 using CertMailer.NotificationService.Infrastructure.Services;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -20,10 +21,10 @@ public static class DependencyInjection
             .AddScoped<IEmailService, SmtpEmailService>()
             .AddMassTransit(x =>
             {
-                // x.AddConsumer<ExcelParsedConsumer>();
+                x.AddConsumer<CertificateGeneratedConsumer>();
                 x.UsingRabbitMq((ctx, cfg) =>
                 {
-                    // cfg.ConfigureEndpoints(ctx);
+                    cfg.ConfigureEndpoints(ctx);
                 });
             });
         return services;

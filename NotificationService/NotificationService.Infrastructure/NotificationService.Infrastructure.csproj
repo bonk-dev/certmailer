@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Shared\Shared.Application\Shared.Application.csproj" />
       <ProjectReference Include="..\NotificationService.Application\NotificationService.Application.csproj" />
     </ItemGroup>
 
@@ -22,10 +23,6 @@
       <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.7" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.7" />
       <PackageReference Include="QuestPDF" Version="2025.7.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Consumers\" />
     </ItemGroup>
 
 </Project>
