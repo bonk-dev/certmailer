@@ -10,6 +10,7 @@ builder.Services
     .AddOpenApi()
     .AddInfrastructureServices(builder.Configuration)
     .AddApplicationServices();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -17,11 +18,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapHangfireDashboard();
 }
 
-app.UseHttpsRedirection();
-
-
+app.MapHangfireDashboard();
+app.MapControllers();
 
 app.Run();
