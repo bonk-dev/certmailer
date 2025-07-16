@@ -17,6 +17,7 @@ public static class DependencyInjection
         
         services.Configure<RabbitMqTransportOptions>(configuration.GetRequiredSection("RabbitMq"));
         services
+            .AddSingleton<IJobStorage, InMemoryJobStorage>()
             .AddScoped<ICertificateService, CertificateService>()
             .AddMassTransit(x =>
             {
