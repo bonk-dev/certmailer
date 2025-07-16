@@ -33,26 +33,38 @@ public class GenerateOnJobAdded : INotificationHandler<JobAddedNotification>
 
         job.JobStatus = Job.Status.InProgress;
 
+        if (!job.Results.Any())
+        {
+            job.Results.AddRange(job.ParticipantsDto.Select(p => new JobCertificateResult
+            {
+                Participant = p,
+                CertificateId = default,
+                CertificateUri = string.Empty
+            }));
+        }
+
         try
         {
-            foreach (var p in job.ParticipantsDto)
+            foreach (var p in job.Results
+                         .Where(r => string.IsNullOrEmpty(r.CertificateUri)))
             {
                 var certResult = await _mediator.Send(new GenerateCertificateCommand
                 {
                     BatchId = notification.BatchId,
-                    Participant = p
+                    Participant = p.Participant
                 }, cancellationToken);
 
                 var result = new JobCertificateResult
                 {
-                    Participant = p,
+                    Participant = p.Participant,
                     CertificateId = certResult.CertificateId,
                     CertificateUri = certResult.CertificateUri
                 };
-                job.Results.Add(result);
+                p.CertificateUri = result.CertificateUri;
+                p.CertificateId = result.CertificateId;
 
-                _logger.LogDebug("Certificate generated (batch: {1}): {0}, uri: {2}",
-                    p.Email, job.BatchId, result.CertificateUri);
+                _logger.LogDebug("Certificate generated (batch: {0}): {1}, uri: {2}",
+                    job.BatchId, p.Participant, result.CertificateUri);
             }
         }
         catch
