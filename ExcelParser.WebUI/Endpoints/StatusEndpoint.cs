@@ -16,6 +16,15 @@ public class StatusEndpoint : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpGet("health")]
+    public IActionResult OnGetHealth()
+    {
+        return Ok(new
+        {
+            Status = "healthy"
+        });
+    }
+
     [HttpGet("{batchId}")]
     public async Task<IActionResult> OnGetJobStatusAsync(Guid batchId)
     {
