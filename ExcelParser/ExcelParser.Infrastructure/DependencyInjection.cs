@@ -22,6 +22,7 @@ public static class DependencyInjection
             .AddMassTransit(x =>
             {
                 x.AddConsumer<EmailSentConsumer>();
+                x.AddConsumer<CertificateGeneratedConsumer>();
                 
                 x.UsingRabbitMq((ctx, cfg) =>
                 {
