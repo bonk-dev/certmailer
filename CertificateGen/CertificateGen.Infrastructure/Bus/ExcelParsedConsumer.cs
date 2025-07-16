@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CertMailer.CertificateGen.Infrastructure.Bus;
 
-public class ExcelParsedConsumer : IConsumer<ExcelParsed>, IMessageBus
+public class ExcelParsedConsumer : IConsumer<ExcelParsed>
 {
     private readonly IMediator _mediator;
     private readonly ILogger<MassTransitBus> _logger;

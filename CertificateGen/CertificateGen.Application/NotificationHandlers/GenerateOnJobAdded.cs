@@ -65,6 +65,12 @@ public class GenerateOnJobAdded : INotificationHandler<JobAddedNotification>
 
                 _logger.LogDebug("Certificate generated (batch: {0}): {1}, uri: {2}",
                     job.BatchId, p.Participant, result.CertificateUri);
+
+                await _mediator.Send(new SendCertificateEventCommand
+                {
+                    BatchId = notification.BatchId,
+                    JobResult = result
+                }, cancellationToken);
             }
         }
         catch
