@@ -1,3 +1,4 @@
+using CertMailer.NotificationService.Application;
 using CertMailer.NotificationService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddOpenApi()
     .AddInfrastructureServices(builder.Configuration);
+    .AddInfrastructureServices(builder.Configuration)
+    .AddApplicationServices();
 
 var app = builder.Build();
 
