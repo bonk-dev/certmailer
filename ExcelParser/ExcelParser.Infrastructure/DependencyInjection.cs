@@ -26,7 +26,14 @@ public static class DependencyInjection
                 
                 x.UsingRabbitMq((ctx, cfg) =>
                 {
-                    cfg.ConfigureEndpoints(ctx);
+                    cfg.ReceiveEndpoint("parser-service-CertificateCreated", e =>
+                    {
+                        e.Consumer<CertificateGeneratedConsumer>(ctx);
+                    });
+                    cfg.ReceiveEndpoint("parser-service-EmailSent", e =>
+                    {
+                        e.Consumer<EmailSentConsumer>(ctx);
+                    });
                 });
             })
             .AddScoped<IMessageBus, MassTransitMessageBus>();
