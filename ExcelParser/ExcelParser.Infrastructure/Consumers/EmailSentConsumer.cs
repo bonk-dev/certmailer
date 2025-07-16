@@ -1,5 +1,6 @@
 using CertMailer.ExcelParser.Application.Interfaces;
 using CertMailer.Shared.Application.Dto;
+using ExcelParser.Domain.Entities;
 using MassTransit;
 
 namespace CertMailer.ExcelParser.Infrastructure.Consumers;
@@ -21,7 +22,7 @@ public class EmailSentConsumer : IConsumer<EmailSent>
             throw new Exception($"Batch {context.Message.BatchId} doesn't exist");
         }
 
-        job.JobStatus.MailsSent++;
+        job.JobStatus.Increment(JobStatus.Prop.Emails);
         await _jobStorage.UpdateJobAsync(job);
     }
 }
