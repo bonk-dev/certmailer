@@ -31,6 +31,14 @@ public class ParseOnJobAdded : INotificationHandler<JobAddedNotification>
         _logger.LogDebug("Received job notification: {0}", notification.BatchId);
         var job = await _storage.GetJobAsync(notification.BatchId);
 
+        if (job == null)
+        {
+            throw new Exception("Job was null");
+        }
+
+        job.JobStatus.ParserState = "parsing";
+        await _storage.UpdateJobAsync(job);
+        
         var result = _excelService.Parse(job.Data!.Memory);
         job.Result = result;
         
@@ -38,6 +46,7 @@ public class ParseOnJobAdded : INotificationHandler<JobAddedNotification>
         
         if (result is { Success: true, Data: not null })
         {
+            job.JobStatus.ParserState = "parsed";
             _logger.LogDebug("Sending ExcelParsed event on message bus: {0}", job.BatchId);
 
             var participantDtos = result.Data.Select(p => new ParticipantDto
@@ -60,6 +69,10 @@ public class ParseOnJobAdded : INotificationHandler<JobAddedNotification>
                 SubjectTemplateId = job.SubjectTemplateId
             };
             await _messageBus.PublishExcelParsedAsync(eventDto);
+        }
+        else
+        {
+            job.JobStatus.ParserState = "error";
         }
     }
 }
