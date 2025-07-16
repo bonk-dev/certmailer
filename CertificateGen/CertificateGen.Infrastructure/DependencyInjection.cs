@@ -1,5 +1,7 @@
 using CertMailer.CertificateGen.Application.Interfaces;
+using CertMailer.CertificateGen.Infrastructure.Bus;
 using CertMailer.CertificateGen.Infrastructure.Services;
+using Hangfire;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,11 +23,22 @@ public static class DependencyInjection
             .AddScoped<ICertificateService, CertificateService>()
             .AddMassTransit(x =>
             {
+                x.AddConsumer<ExcelParsedConsumer>();
                 x.UsingRabbitMq((ctx, cfg) =>
                 {
-                    
+                    cfg.ConfigureEndpoints(ctx);
                 });
-            });
+            })
+            .AddHangfire(cfg =>
+            {
+                cfg
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseInMemoryStorage();
+            })
+            .AddHangfireServer()
+            .AddSingleton<IBackgroundJobService, BackgroundJobService>();
         return services;
     }
 }

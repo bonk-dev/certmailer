@@ -2,6 +2,7 @@ using CertMailer.CertificateGen.Application;
 using CertMailer.CertificateGen.Application.Commands;
 using CertMailer.CertificateGen.Infrastructure;
 using CertMailer.Shared.Application.Dto;
+using Hangfire;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHangfireDashboard();
+    app.MapHangfireDashboard();
 }
 
 app.UseHttpsRedirection();

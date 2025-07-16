@@ -13,11 +13,13 @@ public class AddJobCommandHandler : IRequestHandler<AddJobCommand, Guid>
 {
     private readonly IJobStorage _storage;
     private readonly IMediator _mediator;
+    private readonly IBackgroundJobService _jobService;
 
-    public AddJobCommandHandler(IJobStorage storage, IMediator mediator)
+    public AddJobCommandHandler(IJobStorage storage, IMediator mediator, IBackgroundJobService jobService)
     {
         _storage = storage;
         _mediator = mediator;
+        _jobService = jobService;
     }
     
     public async Task<Guid> Handle(AddJobCommand request, CancellationToken cancellationToken)
@@ -25,11 +27,10 @@ public class AddJobCommandHandler : IRequestHandler<AddJobCommand, Guid>
         var job = await _storage.AddJobAsync(
             request.ExcelParsedEvent.BatchId, 
             request.ExcelParsedEvent.Participants);
-        // Fire and forget task, I would use Hangfire for this, TODO: maybe later
-        _ = _mediator.Publish(new JobAddedNotification
+        _ = _jobService.Enqueue(() => _mediator.Publish(new JobAddedNotification()
         {
             BatchId = job.BatchId
-        }, cancellationToken);
+        }, cancellationToken));
         return job.BatchId;
     }
 }
