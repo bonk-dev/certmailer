@@ -1,14 +1,23 @@
 const certTemplates = {};
 (() => {
+    let templateList;
+
     const updateTemplateOptions = (selectElement, templates, defaultId) => {
         const optionElements = templates.map(t => `<option value="${t.id}" ${defaultId == t.id ? 'selected' : ''}>${t.name} (id: ${t.id})</option>`);
         selectElement.innerHTML = optionElements.join('\n');
     };
     const updateTemplateList = (containerElement, templates) => {
+        templateList = containerElement;
         const items = templates.map(t => {
             const editBoxContainerId = `certTemplateId${t.id}`;
             const editBoxId = `${editBoxContainerId}Text`;
             const editBoxFormId = `${editBoxContainerId}Form`;
+
+            let backgroundAnchor = `<a href='#'>Not set</a>`;
+            if (t.backgroundUri) {
+                backgroundAnchor = `<a href='${API_BASE}/api/certificates/templates/${t.id}/background'>Download current background</a>`;
+            }
+
             return `
                 <li class="list-group-item">
                     <button class="btn w-100 text-start" data-bs-toggle="collapse" data-bs-target="#${editBoxContainerId}" href="#${editBoxContainerId}" role="button" aria-expanded="false">
@@ -41,6 +50,7 @@ const certTemplates = {};
                             <div class="mb-3">
                                 <label for="backgroundFile" class="form-label">Background file</label>
                                 <input class="form-control" type="file" name="backgroundFile">
+                                ${backgroundAnchor}
                             </div>
 
                             <button class="btn btn-primary" type="button" onclick="certTemplates.saveTemplate(${t.id})">Save</button>
@@ -61,6 +71,8 @@ const certTemplates = {};
             method: "PUT",
             body: data
         });
+
+        updateTemplateList(templateList, await fetchTemplates());
     };
     const fetchTemplates = async () => {
         const r = await fetch(`${API_BASE}/api/certificates/templates/all`);
