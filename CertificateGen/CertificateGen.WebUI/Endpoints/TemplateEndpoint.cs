@@ -83,4 +83,21 @@ public class TemplateEndpoint : ControllerBase
             return Ok();
         }
     }
+
+    [HttpGet("{id}/background")]
+    public async Task<IActionResult> OnGetDownloadBackgroundAsync(int id)
+    {
+        var stream = await _mediator.Send(new GetTemplateImageStreamCommand
+        {
+            Id = id
+        });
+
+        if (stream == null)
+        {
+            return NotFound();
+        }
+
+        // Could also store the content type, but this is simpler
+        return File(stream, "application/octet-stream", $"template-{id}");
+    }
 }
