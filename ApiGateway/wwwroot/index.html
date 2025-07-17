@@ -148,6 +148,7 @@
                 getData().templates = await templates.fetchTemplates();
                 setupElements();
                 await jobTable.fillTable();
+                jobTable.startUpdating();
             };
 
             setupApp();

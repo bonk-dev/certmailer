@@ -37,23 +37,6 @@ class Job {
         return this.status.participantsParsed <= this.status.mailsSent;
     }
 
-    startAutoUpdate() {
-        if (this.getIsDone()) {
-            this._autoInterval = null;
-            console.info(`Job ${this.id} done`);
-        }
-        else {
-            this._autoInterval = setTimeout(() => { this.update().then(() => this.startAutoUpdate()) }, 1000);
-        }
-    }
-
-    stopAutoUpdate() {
-        if (this._autoInterval != null) {
-            clearTimeout(this._autoInterval);
-            this._autoInterval = null;
-        }
-    }
-
     setHtml() {
         let errorClass = "";
         if (this.errors && this.errors.length > 0) {
@@ -104,6 +87,7 @@ class JobTable {
     constructor(tableElement) {
         this._jobs = [];
         this._table = tableElement.querySelector('tbody');
+        this._autoInterval = null;
         
         this._addToHtml = (job) => {
             const row = document.createElement('tr');
@@ -115,6 +99,30 @@ class JobTable {
             const r = await fetch(`${API_BASE}/api/parser/status/all`);
             return await r.json();
         };
+        this._updateLoop = async () => {
+            const dtos = await this._fetchAllJobs();
+            for (const d of dtos) {
+                const localJob = this._jobs.find(j => j.id === d.batchId);
+                if (localJob != null) {
+                    localJob.status = d['status'];
+                    localJob.errors = d['errors'];
+                    localJob.setHtml();
+                }
+                else {
+                    const j = new Job(d['batchId'], d['status'], d['errors']);
+                    this.addJob(j);
+                }
+            }
+
+            this._scheludeUpdate();
+        };
+        this._scheludeUpdate = () => {
+            this._autoInterval = setTimeout(() => this._updateLoop(), 1000);
+        };
+    }
+
+    startUpdating() {
+        this._scheludeUpdate();
     }
 
     addJob(job) {
@@ -126,7 +134,6 @@ class JobTable {
         const job = new Job(id);
         this.addJob(job);
         await job.update();
-        job.startAutoUpdate();
     }
 
     async fillTable() {
@@ -135,7 +142,6 @@ class JobTable {
             const j = new Job(dto['batchId'], dto['status'], dto['errors']);
             
             this.addJob(j);
-            j.startAutoUpdate();
         }
     }
 };
