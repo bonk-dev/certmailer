@@ -1,3 +1,6 @@
+using CertificateGen.WebUI.Models;
+using CertMailer.CertificateGen.Application.Commands.Templates;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CertificateGen.WebUI.Endpoints;
@@ -6,7 +9,45 @@ namespace CertificateGen.WebUI.Endpoints;
 [Route("templates")]
 public class TemplateEndpoint : ControllerBase
 {
-    public TemplateEndpoint()
+    private readonly IMediator _mediator;
+
+    public TemplateEndpoint(IMediator mediator)
     {
-    }   
+        _mediator = mediator;
+    }
+
+    [HttpGet("all")]
+    public async Task<IActionResult> OnGetAllTemplatesAsync() => 
+        Ok(await _mediator.Send(new GetAllTemplatesCommand()));
+
+    [HttpPost("")]
+    public async Task<IActionResult> OnPostAddTemplateAsync([FromForm] AddTemplateRequest request)
+    {
+        if (request.BackgroundFile != null)
+        {
+            await using var stream = request.BackgroundFile?.OpenReadStream();
+            var command = new AddTemplateCommand
+            {
+                Name = request.Name,
+                Title = request.Title,
+                Subtitle = request.Subtitle,
+                Description = request.Description,
+                BackgroundImage = stream
+            };
+            await _mediator.Send(command);
+            return Ok();
+        }
+        else
+        {
+            var command = new AddTemplateCommand
+            {
+                Name = request.Name,
+                Title = request.Title,
+                Subtitle = request.Subtitle,
+                Description = request.Description
+            };
+            await _mediator.Send(command);
+            return Ok();
+        }
+    }
 }
