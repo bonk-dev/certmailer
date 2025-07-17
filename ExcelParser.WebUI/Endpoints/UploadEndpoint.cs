@@ -26,7 +26,7 @@ public class UploadEndpoint : ControllerBase
         {
             return BadRequest(new
             {
-                Error = "Only single files are allowed"
+                Errors = new[] {"Only single files are allowed"}
             });
         }
 
@@ -34,7 +34,7 @@ public class UploadEndpoint : ControllerBase
         {
             return BadRequest(new
             {
-                Error = "A file is required"
+                Errors = new [] {"A file is required"}
             });
         }
 
