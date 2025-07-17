@@ -11,6 +11,7 @@ public class Job
     public required IMemoryOwner<byte>? Data { get; set; }
     public int? MailTemplateId { get; init; }
     public int? SubjectTemplateId { get; init; }
+    public int? CertificateTemplateId { get; init; }
     public IResult<IEnumerable<Participant>>? Result { get; set; }
 
     public JobStatus JobStatus { get; set; } = new();

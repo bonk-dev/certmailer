@@ -9,6 +9,7 @@ public class Job
     public required ParticipantDto[] ParticipantsDto { get; set; }
     public int? MailTemplateId { get; init; }
     public int? SubjectTemplateId { get; init; }
+    public int? CertificateTemplateId { get; init; }
     public List<JobCertificateResult> Results { get; } = [];
     
     public enum Status

@@ -30,7 +30,8 @@ public class AddJobCommandHandler : IRequestHandler<AddJobCommand, Guid>
             BatchId = request.ExcelParsedEvent.BatchId, 
             Participants = request.ExcelParsedEvent.Participants,
             MailTemplateId = request.ExcelParsedEvent.MailTemplateId,
-            SubjectTemplateId = request.ExcelParsedEvent.SubjectTemplateId
+            SubjectTemplateId = request.ExcelParsedEvent.SubjectTemplateId,
+            CertificateTemplateId = request.ExcelParsedEvent.CertificateTemplateId
         });
         _ = _jobService.Enqueue(() => _mediator.Publish(new JobAddedNotification()
         {

@@ -24,7 +24,8 @@ public class InMemoryJobStorage : IJobStorage
             BatchId = dto.BatchId,
             ParticipantsDto = dto.Participants,
             MailTemplateId = dto.MailTemplateId,
-            SubjectTemplateId = dto.SubjectTemplateId
+            SubjectTemplateId = dto.SubjectTemplateId,
+            CertificateTemplateId = dto.CertificateTemplateId
         };
         return !_jobs.TryAdd(dto.BatchId, job) 
             ? _jobs[dto.BatchId] 

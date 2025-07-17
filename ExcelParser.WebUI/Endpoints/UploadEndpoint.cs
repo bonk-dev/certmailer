@@ -20,7 +20,7 @@ public class UploadEndpoint : ControllerBase
     [HttpPost("")]
     public async Task<IActionResult> OnPostUploadAsync(
         List<IFormFile> files,
-        [FromForm] int? mailTemplateId, [FromForm] int? subjectTemplateId)
+        [FromForm] int? mailTemplateId, [FromForm] int? subjectTemplateId, [FromForm] int? certificateTemplateId)
     {
         if (files.Count > 1)
         {
@@ -42,7 +42,8 @@ public class UploadEndpoint : ControllerBase
         {
             FileStream = files[0].OpenReadStream(),
             MailTemplateId = mailTemplateId,
-            SubjectTemplateId = subjectTemplateId
+            SubjectTemplateId = subjectTemplateId,
+            CertificateTemplateId = certificateTemplateId
         };
         var addResult = await _mediator.Send(command);
         return Ok(new JobDto(addResult, new JobStatus()

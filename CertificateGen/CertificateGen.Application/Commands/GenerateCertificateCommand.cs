@@ -1,4 +1,5 @@
 using CertMailer.CertificateGen.Application.Interfaces;
+using CertMailer.CertificateGen.Application.Models;
 using CertMailer.Shared.Application.Dto;
 using CertMailer.Shared.Application.Services;
 using CertMailer.Shared.Domain.Entities;
@@ -11,6 +12,7 @@ public class GenerateCertificateCommand : IRequest<GenerateCertificateResult>
 {
     public required Guid BatchId { get; set; }
     public required ParticipantDto Participant { get; set; }
+    public int? TemplateId { get; set; }
 }
 
 public class GenerateCertificateResult
@@ -24,22 +26,43 @@ public class GenerateCertificateCommandHandler : IRequestHandler<GenerateCertifi
     private readonly ILogger<GenerateCertificateCommandHandler> _logger;
     private readonly ICertificateService _certificateService;
     private readonly IBlobStorage _blobStorage;
+    private readonly ITemplateRepository _templateRepository;
 
     public GenerateCertificateCommandHandler(
         ILogger<GenerateCertificateCommandHandler> logger,
         ICertificateService certificateService,
-        IBlobStorage blobStorage)
+        IBlobStorage blobStorage,
+        ITemplateRepository templateRepository)
     {
         _logger = logger;
         _certificateService = certificateService;
         _blobStorage = blobStorage;
+        _templateRepository = templateRepository;
     }
     
     public async Task<GenerateCertificateResult> Handle(GenerateCertificateCommand request, CancellationToken cancellationToken)
     {
         var certId = Guid.NewGuid();
         _logger.LogDebug("Generating cert (batch: {0}): {1}", request.BatchId, certId);
-        
+
+        var options = CertificateOptions.Default;
+        if (request.TemplateId.HasValue)
+        {
+            var template = await _templateRepository.GetTemplateAsync(request.TemplateId.Value);
+            if (template == null)
+            {
+                throw new Exception("Invalid template id");
+            }
+
+            options = new CertificateOptions
+            {
+                BackgroundDocument = null, // TODO
+                Title = template.Title,
+                Subtitle = template.Subtitle,
+                DescriptionFormat = template.Description
+            };
+        }
+
         using var memStream = new MemoryStream();
         _certificateService.GeneratePdf(
             new Participant(
@@ -48,7 +71,8 @@ public class GenerateCertificateCommandHandler : IRequestHandler<GenerateCertifi
                 request.Participant.Email, 
                 request.Participant.CourseName, 
                 request.Participant.CompletionDate), 
-            memStream);
+            memStream, 
+            options);
         memStream.Position = 0L;
         var certUri = await _blobStorage.UploadAsync(
             "certificates", $"{request.BatchId}/{certId}.pdf", memStream, cancellationToken);

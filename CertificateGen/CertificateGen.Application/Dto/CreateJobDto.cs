@@ -8,4 +8,5 @@ public readonly struct CreateJobDto
     public required ParticipantDto[] Participants { get; init; }
     public int? MailTemplateId { get; init; }
     public int? SubjectTemplateId { get; init; }
+    public int? CertificateTemplateId { get; init; }
 }

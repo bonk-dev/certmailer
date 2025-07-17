@@ -13,7 +13,6 @@ public class CertificateService : ICertificateService
 
     public void GeneratePdf(Participant participant, Stream stream, CertificateOptions options)
     {
-        // TODO: Use options.BackgroundDocument
         var document = CreateQuestPdfDocument(participant, options);
         document.GeneratePdf(stream);
     }
@@ -25,6 +24,13 @@ public class CertificateService : ICertificateService
         {
             d.Page(p =>
             {
+                if (options.BackgroundDocument != null)
+                {
+                    p.Background()
+                        .Image(options.BackgroundDocument)
+                        .FitUnproportionally();
+                }
+
                 p.Size(PageSizes.A5.Landscape());
                 p.Content()
                     .AlignCenter()

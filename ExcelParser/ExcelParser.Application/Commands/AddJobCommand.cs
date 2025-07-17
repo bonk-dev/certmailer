@@ -9,6 +9,7 @@ public class AddJobCommand : IRequest<Guid>
     public required Stream FileStream { get; set; }
     public int? MailTemplateId { get; set; }
     public int? SubjectTemplateId { get; set; }
+    public int? CertificateTemplateId { get; set; }
 }
 
 public class AddJobCommandHandler : IRequestHandler<AddJobCommand, Guid>
@@ -28,7 +29,8 @@ public class AddJobCommandHandler : IRequestHandler<AddJobCommand, Guid>
         {
             Stream = request.FileStream,
             MailTemplateId = request.MailTemplateId,
-            SubjectTemplateId = request.SubjectTemplateId
+            SubjectTemplateId = request.SubjectTemplateId,
+            CertificateTemplateId = request.CertificateTemplateId
         });
         await _mediator.Publish(new JobAddedNotification
         {
