@@ -46,6 +46,7 @@ public class GenerateCertificateCommandHandler : IRequestHandler<GenerateCertifi
         _logger.LogDebug("Generating cert (batch: {0}): {1}", request.BatchId, certId);
 
         var options = CertificateOptions.Default;
+        using var backgroundStream = new MemoryStream();
         if (request.TemplateId.HasValue)
         {
             var template = await _templateRepository.GetTemplateAsync(request.TemplateId.Value);
@@ -54,13 +55,28 @@ public class GenerateCertificateCommandHandler : IRequestHandler<GenerateCertifi
                 throw new Exception("Invalid template id");
             }
 
-            options = new CertificateOptions
+            if (!string.IsNullOrEmpty(template.BackgroundUri))
             {
-                BackgroundDocument = null, // TODO
-                Title = template.Title,
-                Subtitle = template.Subtitle,
-                DescriptionFormat = template.Description
-            };
+                await _blobStorage.DownloadAsync(template.BackgroundUri, backgroundStream, cancellationToken);
+                backgroundStream.Position = 0L;
+                options = new CertificateOptions
+                {
+                    BackgroundDocument = backgroundStream,
+                    Title = template.Title,
+                    Subtitle = template.Subtitle,
+                    DescriptionFormat = template.Description
+                };
+            }
+            else
+            {
+                options = new CertificateOptions
+                {
+                    BackgroundDocument = null,
+                    Title = template.Title,
+                    Subtitle = template.Subtitle,
+                    DescriptionFormat = template.Description
+                };
+            }
         }
 
         using var memStream = new MemoryStream();
