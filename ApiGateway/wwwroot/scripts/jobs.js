@@ -32,9 +32,13 @@ class Job {
         this.setHtml();
     }
 
-    startAutoUpdate() {
+    getIsDone() {
         // TODO: Add 'isDone' to API
-        if (this.status.participantsParsed <= this.status.mailsSent) {
+        return this.status.participantsParsed <= this.status.mailsSent;
+    }
+
+    startAutoUpdate() {
+        if (this.getIsDone()) {
             this._autoInterval = null;
             console.info(`Job ${this.id} done`);
         }
@@ -56,8 +60,9 @@ class Job {
             errorClass += "text-danger text-decoration-line-through";
         }
 
-        const thElement = this.errors.length > 0 
-            ? `
+        let thElement;
+        if (this.errors.length > 0) {
+            thElement = `
             <th scope="row">
                 <span class="${errorClass} text-break-all">${this.id}</span>
                 <button class="btn btn-outline-danger btn-sm" data-bs-toggle="collapse" 
@@ -70,8 +75,21 @@ class Job {
                         ${this.errors.map(e => `<li>${e}</li>`).join('')}
                     </ul>
                 </div>
-            </th>`
-            : `<th scope="row" class="${errorClass} text-break-all">${this.id}</th>`;
+            </th>`;
+        }
+        else if (!this.getIsDone()) {
+            // TODO: add spinner maybe
+            thElement = `
+            <th scope="row" class="${errorClass} text-break-all">
+                <span>${this.id} (in progress)</span>
+            </th>`;
+        }
+        else {
+            thElement = `
+            <th scope="row" class="${errorClass} text-break-all">
+                <span>${this.id}</span>
+            </th>`;
+        }
 
         this.rowElement.innerHTML = `
         ${thElement}
