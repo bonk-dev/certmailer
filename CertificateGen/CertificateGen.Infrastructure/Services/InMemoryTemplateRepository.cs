@@ -41,4 +41,21 @@ public class InMemoryTemplateRepository : ITemplateRepository
 
         return template;
     }
+
+    public async Task<CertificateTemplate> UpdateTemplateAsync(CertificateTemplate template)
+    {
+        var existingTemplate = await GetTemplateAsync(template.Id);
+        if (existingTemplate == null)
+        {
+            throw new Exception("Template not found");
+        }
+
+        existingTemplate.Description = template.Description;
+        existingTemplate.Name = template.Name;
+        existingTemplate.Subtitle = template.Subtitle;
+        existingTemplate.Title = template.Title;
+        existingTemplate.BackgroundUri = template.BackgroundUri;
+
+        return existingTemplate;
+    }
 }

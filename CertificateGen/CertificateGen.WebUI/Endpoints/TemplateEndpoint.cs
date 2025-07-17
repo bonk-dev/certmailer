@@ -26,7 +26,7 @@ public class TemplateEndpoint : ControllerBase
         if (request.BackgroundFile != null)
         {
             await using var stream = request.BackgroundFile?.OpenReadStream();
-            var command = new AddTemplateCommand
+            var command = new AddOrUpdateTemplateCommand
             {
                 Name = request.Name,
                 Title = request.Title,
@@ -39,8 +39,41 @@ public class TemplateEndpoint : ControllerBase
         }
         else
         {
-            var command = new AddTemplateCommand
+            var command = new AddOrUpdateTemplateCommand
             {
+                Name = request.Name,
+                Title = request.Title,
+                Subtitle = request.Subtitle,
+                Description = request.Description
+            };
+            await _mediator.Send(command);
+            return Ok();
+        }
+    }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> OnPutAddTemplateAsync(int id, [FromForm] AddTemplateRequest request)
+    {
+        if (request.BackgroundFile != null)
+        {
+            await using var stream = request.BackgroundFile?.OpenReadStream();
+            var command = new AddOrUpdateTemplateCommand
+            {
+                IdToUpdate = id,
+                Name = request.Name,
+                Title = request.Title,
+                Subtitle = request.Subtitle,
+                Description = request.Description,
+                BackgroundImage = stream
+            };
+            await _mediator.Send(command);
+            return Ok();
+        }
+        else
+        {
+            var command = new AddOrUpdateTemplateCommand
+            {
+                IdToUpdate = id,
                 Name = request.Name,
                 Title = request.Title,
                 Subtitle = request.Subtitle,

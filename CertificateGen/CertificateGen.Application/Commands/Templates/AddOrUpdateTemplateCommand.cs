@@ -5,8 +5,9 @@ using MediatR;
 
 namespace CertMailer.CertificateGen.Application.Commands.Templates;
 
-public class AddTemplateCommand : IRequest
+public class AddOrUpdateTemplateCommand : IRequest
 {
+    public int? IdToUpdate { get; set; }
     public required string Name { get; set; }
     public required string Title { get; set; }
     public required string Subtitle { get; set; }
@@ -14,7 +15,7 @@ public class AddTemplateCommand : IRequest
     public Stream? BackgroundImage { get; set; }
 }
 
-public class AddTemplateCommandHandler : IRequestHandler<AddTemplateCommand>
+public class AddTemplateCommandHandler : IRequestHandler<AddOrUpdateTemplateCommand>
 {
     private readonly ITemplateRepository _repository;
     private readonly IBlobStorage _blobStorage;
@@ -27,7 +28,7 @@ public class AddTemplateCommandHandler : IRequestHandler<AddTemplateCommand>
         _blobStorage = blobStorage;
     }
     
-    public async Task Handle(AddTemplateCommand request, CancellationToken cancellationToken)
+    public async Task Handle(AddOrUpdateTemplateCommand request, CancellationToken cancellationToken)
     {
         string? uri = null;
         if (request.BackgroundImage != null)
@@ -38,14 +39,23 @@ public class AddTemplateCommandHandler : IRequestHandler<AddTemplateCommand>
                 .ToString();
         }
 
-        await _repository.AddTemplateAsync(new CertificateTemplate
+        var template = new CertificateTemplate
         {
-            Id = 0,
+            Id = request.IdToUpdate ?? 0,
             Name = request.Name,
             Title = request.Title,
             Subtitle = request.Subtitle,
             Description = request.Description,
             BackgroundUri = uri
-        });
+        };
+
+        if (request.IdToUpdate.HasValue)
+        {
+            await _repository.UpdateTemplateAsync(template);
+        }
+        else
+        {
+            await _repository.AddTemplateAsync(template);
+        }
     }
 }

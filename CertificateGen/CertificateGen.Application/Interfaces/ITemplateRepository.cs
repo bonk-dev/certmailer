@@ -8,4 +8,5 @@ public interface ITemplateRepository
     Task<CertificateTemplate> GetDefaultTemplateAsync();
     Task<CertificateTemplate?> GetTemplateAsync(int id);
     Task<CertificateTemplate> AddTemplateAsync(CertificateTemplate template);
+    Task<CertificateTemplate> UpdateTemplateAsync(CertificateTemplate template);
 }
