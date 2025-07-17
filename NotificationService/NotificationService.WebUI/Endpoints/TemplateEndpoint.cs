@@ -1,6 +1,7 @@
 using CertMailer.NotificationService.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NotificationService.WebUI.Models;
 
 namespace NotificationService.WebUI.Endpoints;
 
@@ -20,5 +21,18 @@ public class TemplateEndpoint : ControllerBase
     {
         var command = new GetAllTemplatesCommand();
         return Ok(await _mediator.Send(command));
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> OnPostSaveTemplateAsync(int id, [FromBody] UpdateTemplateRequest request)
+    {
+        var command = new UpdateTemplateCommand
+        {
+            Id = id,
+            Name = request.Name,
+            Template = request.Template
+        };
+        await _mediator.Send(command);
+        return Ok();
     }
 }

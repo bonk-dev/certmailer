@@ -40,4 +40,18 @@ public class InMemoryTemplateRepository : ITemplateRepository
 
     public Task<MailTemplate?> GetTemplateAsync(int id) => 
         Task.FromResult(_templates.SingleOrDefault(t => t.Id == id));
+
+    public Task UpdateTemplateAsync(MailTemplate template)
+    {
+        var t = _templates.SingleOrDefault(t => t.Id == template.Id);
+        if (t == null)
+        {
+            return Task.CompletedTask;
+        }
+
+        t.Name = template.Name;
+        t.Template = template.Template;
+        
+        return Task.CompletedTask;
+    }
 }

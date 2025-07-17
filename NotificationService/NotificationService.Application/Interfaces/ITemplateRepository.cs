@@ -8,4 +8,6 @@ public interface ITemplateRepository
     Task<MailTemplate> GetDefaultTemplateAsync();
     Task<MailTemplate> GetDefaultSubjectTemplateAsync();
     Task<MailTemplate?> GetTemplateAsync(int id);
+
+    Task UpdateTemplateAsync(MailTemplate template);
 }
