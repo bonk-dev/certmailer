@@ -30,14 +30,14 @@
                         <section class="mb-3 row">
                             <div class="col">
                                 <label>Mail body template</label>
-                                <select class="form-select" aria-label="Mail template select" name="mailTemplateId">
+                                <select class="form-select" aria-label="Mail template select" name="mailTemplateId" id="mailTemplates">
                                     <option value="1" selected>Default (id: 1)</option>
                                     <option value="2">Default (subject) (id: 2)</option>
                                 </select>
                             </div>
                             <div class="col">
                                 <label>Subject template</label>
-                                <select class="form-select" aria-label="Subject template select" name="subjectTemplateId">
+                                <select class="form-select" aria-label="Subject template select" name="subjectTemplateId" id="subjectTemplates">
                                     <option value="1">Default (id: 1)</option>
                                     <option value="2" selected>Default (subject) (id: 2)</option>
                                 </select>
@@ -70,21 +70,63 @@
                     </section>
                 </div>
                 <div class="tab-pane fade" id="mail-templates-tab-pane" role="tabpanel" aria-labelledby="mail-templates-tab" tabindex="1">
-
+                    <ul class="list-group" id="templatesList">
+                        <li class="list-group-item">
+                            <button class="btn w-100 text-start" data-bs-toggle="collapse" data-bs-target="#template-id-1" href="#template-id-1" role="button" aria-expanded="false">
+                                Default (id: 1)
+                            </button>
+                            <div id="template-id-1" class="collapse">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Use placeholders like {{FirstName}}" id="templateId1Text" style="height: 100px"></textarea>
+                                    <label for="templateId1Text">Template</label>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <script src="vendor/bootstrap/bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js"></script>
         <script src="scripts/config.js"></script>
+        <script src="scripts/data.js"></script>
         <script src="scripts/JobTable.js"></script>
         <script>
             const el = {
                 excelForm: null,
-                excelSubmit: null
+                excelSubmit: null,
+                templatesList: null
             };
 
             const jobTable = new JobTable(document.getElementById('jobTable'));
+
+            const updateTemplateOptions = (selectElement, templates, defaultId) => {
+                const optionElements = templates.map(t => `<option value="${t.id}" ${defaultId == t.id ? 'selected' : ''}>${t.name} (id: ${t.id})</option>`);
+                selectElement.innerHTML = optionElements.join('\n');
+            };
+            const updateTemplateList = (containerElement, templates) => {
+                const items = templates.map(t => {
+                    const editBoxContainerId = `templateId${t.id}`;
+                    const editBoxId = `${editBoxContainerId}Text`;
+                    return `
+                        <li class="list-group-item">
+                            <button class="btn w-100 text-start" data-bs-toggle="collapse" data-bs-target="#${editBoxContainerId}" href="#${editBoxContainerId}" role="button" aria-expanded="false">
+                                ${t.name} (id: ${t.id})
+                            </button>
+                            <div id="${editBoxContainerId}" class="collapse">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Use placeholders like {{FirstName}}" id="${editBoxId}" style="height: 300px"></textarea>
+                                    <label for="${editBoxId}">Template</label>
+                                </div>
+                                <button class="btn btn-primary" onclick="saveTemplate(${t.id})">Save</button>
+                            </div>
+                        </li>`.trim();
+                });
+                containerElement.innerHTML = items.join('');
+            };
+            const saveTemplate = (id) => {
+                console.debug("TODO: save template");
+            };
 
             const handleUpload = async (e) => {
                 el.excelSubmit.disabled = true;
@@ -129,8 +171,14 @@
             const setupElements = () => {
                 el.excelForm = document.getElementById('excelForm');
                 el.excelSubmit = document.getElementById('excelSubmit');
+                el.templatesList = document.getElementById('templatesList');
 
                 el.excelSubmit.addEventListener('click', handleUpload);
+
+                updateTemplateOptions(document.getElementById('mailTemplates'), getData().templates, 1);
+                updateTemplateOptions(document.getElementById('subjectTemplates'), getData().templates, 2);
+
+                updateTemplateList(el.templatesList, getData().templates);
             };
 
             setupElements();
