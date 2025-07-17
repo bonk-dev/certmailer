@@ -9,52 +9,70 @@
     <body>
         
         <div class="container">
-            <form id="excelForm">
-                <section class="mb-3">
-                    <label for="excelFile" class="form-label">Excel (.xlsx) file containing the participants list</label>
-                    <input class="form-control" type="file" name="files">
-                </section>
-                <section class="mb-3 row">
-                    <div class="col">
-                        <label>Mail body template</label>
-                        <select class="form-select" aria-label="Mail template select" name="mailTemplateId">
-                            <option value="1" selected>Default (id: 1)</option>
-                            <option value="2">Default (subject) (id: 2)</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <label>Subject template</label>
-                        <select class="form-select" aria-label="Subject template select" name="subjectTemplateId">
-                            <option value="1">Default (id: 1)</option>
-                            <option value="2" selected>Default (subject) (id: 2)</option>
-                        </select>
-                    </div>
-                </section>
-                <section>
-                    <button id="excelSubmit" class="btn btn-primary" type="button">
-                        <span class="spinner-border spinner-border-sm visually-hidden" aria-hidden="true"></span>
-                        <span>Upload</span>
-                    </button>
-                </section>
-            </form>
+            <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload-tab-pane" 
+                            type="button" role="tab" aria-controls="upload-tab-pane" aria-selected="true">Upload</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="mail-templates-tab" data-bs-toggle="tab" data-bs-target="#mail-templates-tab-pane" 
+                            type="button" role="tab" aria-controls="mail-templates-tab-pane" aria-selected="true">Mail templates</button>
+                </li>
+            </ul>
 
-            <hr>
+            <div class="tab-content" id="mainTabsContent">
+                <div class="tab-pane fade show active" id="upload-tab-pane" role="tabpanel" aria-labelledby="upload-tab" tabindex="0">
+                    <form id="excelForm">
+                        <section class="mb-3">
+                            <label for="excelFile" class="form-label">Excel (.xlsx) file containing the participants list</label>
+                            <input class="form-control" type="file" name="files">
+                        </section>
+                        <section class="mb-3 row">
+                            <div class="col">
+                                <label>Mail body template</label>
+                                <select class="form-select" aria-label="Mail template select" name="mailTemplateId">
+                                    <option value="1" selected>Default (id: 1)</option>
+                                    <option value="2">Default (subject) (id: 2)</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label>Subject template</label>
+                                <select class="form-select" aria-label="Subject template select" name="subjectTemplateId">
+                                    <option value="1">Default (id: 1)</option>
+                                    <option value="2" selected>Default (subject) (id: 2)</option>
+                                </select>
+                            </div>
+                        </section>
+                        <section>
+                            <button id="excelSubmit" class="btn btn-primary" type="button">
+                                <span class="spinner-border spinner-border-sm visually-hidden" aria-hidden="true"></span>
+                                <span>Upload</span>
+                            </button>
+                        </section>
+                    </form>
+        
+                    <hr>
+        
+                    <!-- Job list -->
+                    <section>
+                        <table class="table" id="jobTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Parsed entries</th>
+                                    <th scope="col">Certificates generated</th>
+                                    <th scope="col">Emails sent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <div class="tab-pane fade" id="mail-templates-tab-pane" role="tabpanel" aria-labelledby="mail-templates-tab" tabindex="1">
 
-            <!-- Job list -->
-            <section>
-                <table class="table" id="jobTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Parsed entries</th>
-                            <th scope="col">Certificates generated</th>
-                            <th scope="col">Emails sent</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </section>
+                </div>
+            </div>
         </div>
 
         <script src="vendor/bootstrap/bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js"></script>
