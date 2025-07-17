@@ -27,8 +27,11 @@ public class InMemoryTemplateRepository : ITemplateRepository
             Name = "Domyślny (temat)",
             Template = "Certyfikat za {CourseName}"
         }
-    ]; 
-    
+    ];
+
+    public Task<IEnumerable<MailTemplate>> GetAllTemplatesAsync() => 
+        Task.FromResult(_templates.AsEnumerable());
+
     public async Task<MailTemplate> GetDefaultTemplateAsync() => 
         (await GetTemplateAsync(DefaultTemplateId))!;
 
