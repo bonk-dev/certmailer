@@ -8,8 +8,14 @@ class Job {
     errors = []
     rowElement = null
 
-    constructor(id) {
+    constructor(id, status = null, errors = null) {
         this.id = id;
+        if (status) {
+            this.status = status;
+        }
+        if (errors) {
+            this.errors = errors;
+        }
 
         this._fetchJobStatus = async() => {
             const r = await fetch(`${API_BASE}/api/parser/status/${this.id}`);
@@ -24,14 +30,23 @@ class Job {
         this.status = {...j['status']};
         this.errors = j['errors'];
         this.setHtml();
+    }
 
+    startAutoUpdate() {
         // TODO: Add 'isDone' to API
         if (this.status.participantsParsed <= this.status.mailsSent) {
             this._autoInterval = null;
             console.info(`Job ${this.id} done`);
         }
         else {
-            this._autoInterval = setTimeout(() => this.update(), 1000);
+            this._autoInterval = setTimeout(() => { this.update().then(() => this.startAutoUpdate()) }, 1000);
+        }
+    }
+
+    stopAutoUpdate() {
+        if (this._autoInterval != null) {
+            clearTimeout(this._autoInterval);
+            this._autoInterval = null;
         }
     }
 
@@ -61,13 +76,31 @@ class JobTable {
             job.setHtml();
             this._table.appendChild(row);
         };
+        this._fetchAllJobs = async () => {
+            const r = await fetch(`${API_BASE}/api/parser/status/all`);
+            return await r.json();
+        };
     }
 
-    async addJob(id) {
-        const job = new Job(id);
-    
+    addJob(job) {
         this._jobs.push(job);
         this._addToHtml(job);
+    }
+
+    async addJobById(id) {
+        const job = new Job(id);
+        this.addJob(job);
         await job.update();
+        job.startAutoUpdate();
+    }
+
+    async fillTable() {
+        const jobsDtos = await this._fetchAllJobs();
+        for (const dto of jobsDtos) {
+            const j = new Job(dto['batchId'], dto['status'], dto['errors']);
+            
+            this.addJob(j);
+            j.startAutoUpdate();
+        }
     }
 };

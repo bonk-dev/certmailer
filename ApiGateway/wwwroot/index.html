@@ -112,7 +112,7 @@
                         console.error('Unknown error while creating job, status code: ' + r.status);
                     }
                     else {
-                        jobTable.addJob(j['batchId']);
+                        jobTable.addJobById(j['batchId']);
                     }
                 } catch(e) {
                     console.debug('Error while uploading excel file:');
@@ -142,6 +142,7 @@
             const setupApp = async () => {
                 getData().templates = await templates.fetchTemplates();
                 setupElements();
+                await jobTable.fillTable();
             };
 
             setupApp();
