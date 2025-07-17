@@ -15,17 +15,30 @@ const templates = {};
                     </button>
                     <div id="${editBoxContainerId}" class="collapse">
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Use placeholders like {{FirstName}}" id="${editBoxId}" style="height: 300px">${new Option(t.template).innerHTML}</textarea>
+                            <textarea class="form-control" placeholder="Use placeholders like {{FirstName}}" 
+                                id="${editBoxId}" style="height: 300px" 
+                                onchange="templates.set(${t.id}, event.target.value);">${new Option(t.template).innerHTML}</textarea>
                             <label for="${editBoxId}">Template</label>
                         </div>
-                        <button class="btn btn-primary" onclick="saveTemplate(${t.id})">Save</button>
+                        <button class="btn btn-primary" onclick="templates.saveTemplate(${t.id})">Save</button>
                     </div>
                 </li>`.trim();
         });
         containerElement.innerHTML = items.join('');
     };
-    const saveTemplate = (id) => {
-        console.debug("TODO: save template");
+    const set = (id, templateText) => {
+        const t = getData().templates.find(t => t.id == id);
+        t.template = templateText;
+    };
+    const saveTemplate = async (id) => {
+        const t = getData().templates.find(t => t.id == id);
+        await fetch(`${API_BASE}/api/notifications/template/${id}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(t)
+        });
     };
     const fetchTemplates = async () => {
         const r = await fetch(`${API_BASE}/api/notifications/template/all`);
@@ -34,6 +47,7 @@ const templates = {};
 
     templates.updateTemplateOptions = updateTemplateOptions;
     templates.updateTemplateList = updateTemplateList;
+    templates.set = set;
     templates.saveTemplate = saveTemplate;
     templates.fetchTemplates = fetchTemplates;
 })();
