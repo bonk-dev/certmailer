@@ -108,6 +108,9 @@
                         console.error('Error while creating job');
                         console.error(j['errors']);
                     }
+                    else if (r.status != 200) {
+                        console.error('Unknown error while creating job, status code: ' + r.status);
+                    }
                     else {
                         jobTable.addJob(j['batchId']);
                     }
