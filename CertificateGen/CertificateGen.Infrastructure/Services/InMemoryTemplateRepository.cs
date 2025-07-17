@@ -10,6 +10,7 @@ public class InMemoryTemplateRepository : ITemplateRepository
     [
         new CertificateTemplate
         {
+            Name = "Default",
             BackgroundUri = null,
             Description = "za ukończenie kursu „{0}” w dniu {1}",
             Subtitle = "Ten certyfikat został przyznany dla",
