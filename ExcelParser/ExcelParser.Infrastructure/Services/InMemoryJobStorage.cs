@@ -15,7 +15,10 @@ public class InMemoryJobStorage : IJobStorage
     {
         _logger = logger;
     }
-    
+
+    public Task<IEnumerable<Job>> GetAllJobsAsync() => 
+        Task.FromResult(_storedFiles.Values.AsEnumerable());
+
     public async Task<Job> AddJobAsync(JobCreationDto jobCreationDto)
     {
         var guid = Guid.NewGuid();

@@ -50,4 +50,11 @@ public class StatusEndpoint : ControllerBase
         }
         return Ok(new JobDto(job.BatchId, job.JobStatus, job.Result?.Errors));
     }
+
+    [HttpGet("all")]
+    public async Task<IActionResult> OnGetAllJobsAsync()
+    {
+        var jobs = await _mediator.Send(new GetAllJobsCommand());
+        return Ok(jobs.Select(j => new JobDto(j.BatchId, j.JobStatus, j.Result?.Errors)));
+    }
 }
