@@ -38,17 +38,11 @@ class Job {
     }
 
     setHtml() {
-        let errorClass = "";
-        if (this.errors && this.errors.length > 0) {
-            errorClass += "text-danger text-decoration-line-through";
-        }
-
-        let thElement;
-        if (this.errors.length > 0) {
-            thElement = `
+        if (this._html == null) {
+            const thElement = `
             <th scope="row">
-                <span class="${errorClass} text-break-all">${this.id}</span>
-                <button class="btn btn-outline-danger btn-sm" data-bs-toggle="collapse" 
+                <span class="text-break-all">${this.id}</span>
+                <button class="btn btn-outline-danger btn-sm d-none" data-bs-toggle="collapse" 
                         data-bs-target="#${this.id}-errors" aria-expanded="false" 
                         aria-controls="${this.id}-errors">
                     Show errors
@@ -59,27 +53,38 @@ class Job {
                     </ul>
                 </div>
             </th>`;
-        }
-        else if (!this.getIsDone()) {
-            // TODO: add spinner maybe
-            thElement = `
-            <th scope="row" class="${errorClass} text-break-all">
-                <span>${this.id} (in progress)</span>
-            </th>`;
-        }
-        else {
-            thElement = `
-            <th scope="row" class="${errorClass} text-break-all">
-                <span>${this.id}</span>
-            </th>`;
+
+            this.rowElement.innerHTML = `
+                ${thElement}
+                <td class="parsed">${this.status.participantsParsed}</td>
+                <td class="certs">${this.status.certificatesGenerated}</td>
+                <td class="sent">${this.status.mailsSent}</td>
+            `;
+
+            this._html = {
+                showErrorButton: this.rowElement.querySelector('th > button'),
+                idSpan: this.rowElement.querySelector('th > span'),
+                parsedTd: this.rowElement.querySelector('td.parsed'),
+                certsTd: this.rowElement.querySelector('td.certs'),
+                emailsTd: this.rowElement.querySelector('td.sent')
+            };
         }
 
-        this.rowElement.innerHTML = `
-        ${thElement}
-        <td class="${errorClass}">${this.status.participantsParsed}</td>
-        <td class="${errorClass}">${this.status.certificatesGenerated}</td>
-        <td class="${errorClass}">${this.status.mailsSent}</td>
-        `;
+        this._html.emailsTd.innerText = this.status.mailsSent;
+        this._html.certsTd.innerText = this.status.certificatesGenerated;
+        this._html.parsedTd.innerText = this.status.participantsParsed;
+
+        const errorsSet = this.rowElement.classList.contains('error');
+        if (this.errors.length > 0 && !errorsSet) {
+            const errorClassName = ['text-danger', 'text-decoration-line-through'];
+            this._html.showErrorButton.classList.remove('d-none');
+            this._html.idSpan.classList.add(...errorClassName);
+            this._html.parsedTd.classList.add(...errorClassName);
+            this._html.certsTd.classList.add(...errorClassName);
+            this._html.emailsTd.classList.add(...errorClassName);
+
+            this.rowElement.classList.add('error');
+        }
     };
 }
 
