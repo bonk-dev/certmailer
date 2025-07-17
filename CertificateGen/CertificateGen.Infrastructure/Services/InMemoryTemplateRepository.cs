@@ -36,8 +36,8 @@ public class InMemoryTemplateRepository : ITemplateRepository
             return existing;
         }
 
-        template.Id = _templates.Max(t => t.Id);
-        _templates.Add(template);
+        template.Id = _templates.Max(t => t.Id) + 1;
+        _templates.Add(template); 
 
         return template;
     }
