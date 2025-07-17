@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ExcelParser\ExcelParser.Infrastructure\ExcelParser.Infrastructure.csproj" />
+      <ProjectReference Include="..\ExcelParser.Infrastructure\ExcelParser.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
