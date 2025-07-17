@@ -31,7 +31,10 @@
                     </div>
                 </section>
                 <section>
-                    <button id="excelSubmit" class="btn btn-primary" type="button">Upload</button>
+                    <button id="excelSubmit" class="btn btn-primary" type="button">
+                        <span class="spinner-border spinner-border-sm visually-hidden" aria-hidden="true"></span>
+                        <span>Upload</span>
+                    </button>
                 </section>
             </form>
 
@@ -66,6 +69,12 @@
             const jobTable = new JobTable(document.getElementById('jobTable'));
 
             const handleUpload = async (e) => {
+                el.excelSubmit.disabled = true;
+                el.excelSubmit
+                    .querySelector('.spinner-border')
+                    .classList
+                    .remove('visually-hidden');
+
                 e.preventDefault();
                 e.stopPropagation();
 
@@ -90,6 +99,12 @@
                 } catch(e) {
                     console.debug('Error while uploading excel file:');
                     console.error(e);
+                } finally {
+                    el.excelSubmit.disabled = false;
+                    el.excelSubmit
+                        .querySelector('.spinner-border')
+                        .classList
+                        .add('visually-hidden');
                 }
             };
 
