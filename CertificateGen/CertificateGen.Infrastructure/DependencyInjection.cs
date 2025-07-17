@@ -45,7 +45,8 @@ public static class DependencyInjection
             })
             .AddHangfireServer()
             .AddSingleton<IBackgroundJobService, BackgroundJobService>()
-            .AddScoped<IBlobStorage, FilesystemBlobStorage>();
+            .AddScoped<IBlobStorage, FilesystemBlobStorage>()
+            .AddSingleton<ITemplateRepository, InMemoryTemplateRepository>();
         return services;
     }
 }
