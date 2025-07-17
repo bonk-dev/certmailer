@@ -72,6 +72,7 @@
         <script src="vendor/bootstrap/bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js"></script>
         <script src="scripts/config.js"></script>
         <script src="scripts/data.js"></script>
+        <script src="scripts/templates.js"></script>
         <script src="scripts/JobTable.js"></script>
         <script>
             const el = {
@@ -81,38 +82,6 @@
             };
 
             const jobTable = new JobTable(document.getElementById('jobTable'));
-
-            const updateTemplateOptions = (selectElement, templates, defaultId) => {
-                const optionElements = templates.map(t => `<option value="${t.id}" ${defaultId == t.id ? 'selected' : ''}>${t.name} (id: ${t.id})</option>`);
-                selectElement.innerHTML = optionElements.join('\n');
-            };
-            const updateTemplateList = (containerElement, templates) => {
-                const items = templates.map(t => {
-                    const editBoxContainerId = `templateId${t.id}`;
-                    const editBoxId = `${editBoxContainerId}Text`;
-                    return `
-                        <li class="list-group-item">
-                            <button class="btn w-100 text-start" data-bs-toggle="collapse" data-bs-target="#${editBoxContainerId}" href="#${editBoxContainerId}" role="button" aria-expanded="false">
-                                ${t.name} (id: ${t.id})
-                            </button>
-                            <div id="${editBoxContainerId}" class="collapse">
-                                <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Use placeholders like {{FirstName}}" id="${editBoxId}" style="height: 300px">${new Option(t.template).innerHTML}</textarea>
-                                    <label for="${editBoxId}">Template</label>
-                                </div>
-                                <button class="btn btn-primary" onclick="saveTemplate(${t.id})">Save</button>
-                            </div>
-                        </li>`.trim();
-                });
-                containerElement.innerHTML = items.join('');
-            };
-            const saveTemplate = (id) => {
-                console.debug("TODO: save template");
-            };
-            const fetchTemplates = async () => {
-                const r = await fetch(`${API_BASE}/api/notifications/template/all`);
-                return await r.json();
-            };
 
             const handleUpload = async (e) => {
                 el.excelSubmit.disabled = true;
@@ -161,14 +130,14 @@
 
                 el.excelSubmit.addEventListener('click', handleUpload);
 
-                updateTemplateOptions(document.getElementById('mailTemplates'), getData().templates, 1);
-                updateTemplateOptions(document.getElementById('subjectTemplates'), getData().templates, 2);
+                templates.updateTemplateOptions(document.getElementById('mailTemplates'), getData().templates, 1);
+                templates.updateTemplateOptions(document.getElementById('subjectTemplates'), getData().templates, 2);
 
-                updateTemplateList(el.templatesList, getData().templates);
+                templates.updateTemplateList(el.templatesList, getData().templates);
             };
 
             const setupApp = async () => {
-                getData().templates = await fetchTemplates();
+                getData().templates = await templates.fetchTemplates();
                 setupElements();
             };
 
