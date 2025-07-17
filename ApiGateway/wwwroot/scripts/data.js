@@ -10,6 +10,9 @@ GLOBAL_DATA = {
             name: "Default (subject)",
             template: "<p></p>"
         },
+    ],
+    certTemplates: [
+        
     ]
 };
 
