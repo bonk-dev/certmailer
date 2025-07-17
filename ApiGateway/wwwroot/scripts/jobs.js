@@ -5,6 +5,7 @@ class Job {
         certificatesGenerated: 0,
         mailsSent: 0
     }
+    errors = []
     rowElement = null
 
     constructor(id) {
@@ -21,6 +22,7 @@ class Job {
 
         const j = await this._fetchJobStatus();
         this.status = {...j['status']};
+        this.errors = j['errors'];
         this.setHtml();
 
         // TODO: Add 'isDone' to API
@@ -34,11 +36,16 @@ class Job {
     }
 
     setHtml() {
+        let childrenClass = "";
+        if (this.errors && this.errors.length > 0) {
+            childrenClass += "text-danger text-decoration-line-through";
+        }
+
         this.rowElement.innerHTML = `
-        <th scope="row">${this.id}</th>
-        <td>${this.status.participantsParsed}</td>
-        <td>${this.status.certificatesGenerated}</td>
-        <td>${this.status.mailsSent}</td>
+        <th scope="row" class="${childrenClass}">${this.id}</th>
+        <td class="${childrenClass}">${this.status.participantsParsed}</td>
+        <td class="${childrenClass}">${this.status.certificatesGenerated}</td>
+        <td class="${childrenClass}">${this.status.mailsSent}</td>
         `;
     };
 }
