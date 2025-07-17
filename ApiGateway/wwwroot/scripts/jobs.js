@@ -51,16 +51,33 @@ class Job {
     }
 
     setHtml() {
-        let childrenClass = "";
+        let errorClass = "";
         if (this.errors && this.errors.length > 0) {
-            childrenClass += "text-danger text-decoration-line-through";
+            errorClass += "text-danger text-decoration-line-through";
         }
 
+        const thElement = this.errors.length > 0 
+            ? `
+            <th scope="row">
+                <span class="${errorClass} text-break-all">${this.id}</span>
+                <button class="btn btn-outline-danger btn-sm" data-bs-toggle="collapse" 
+                        data-bs-target="#${this.id}-errors" aria-expanded="false" 
+                        aria-controls="${this.id}-errors">
+                    Show errors
+                </button>
+                <div id="${this.id}-errors" class="collapse">
+                    <ul>
+                        ${this.errors.map(e => `<li>${e}</li>`).join('')}
+                    </ul>
+                </div>
+            </th>`
+            : `<th scope="row" class="${errorClass} text-break-all">${this.id}</th>`;
+
         this.rowElement.innerHTML = `
-        <th scope="row" class="${childrenClass} text-break-all">${this.id}</th>
-        <td class="${childrenClass}">${this.status.participantsParsed}</td>
-        <td class="${childrenClass}">${this.status.certificatesGenerated}</td>
-        <td class="${childrenClass}">${this.status.mailsSent}</td>
+        ${thElement}
+        <td class="${errorClass}">${this.status.participantsParsed}</td>
+        <td class="${errorClass}">${this.status.certificatesGenerated}</td>
+        <td class="${errorClass}">${this.status.mailsSent}</td>
         `;
     };
 }
