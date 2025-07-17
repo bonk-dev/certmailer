@@ -1,9 +1,9 @@
 using CertMailer.NotificationService.Application.Commands;
+using CertMailer.NotificationService.WebUI.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using NotificationService.WebUI.Models;
 
-namespace NotificationService.WebUI.Endpoints;
+namespace CertMailer.NotificationService.WebUI.Endpoints;
 
 [ApiController]
 [Route("template")]

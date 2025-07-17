@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace NotificationService.WebUI.Endpoints;
+namespace CertMailer.NotificationService.WebUI.Endpoints;
 
 [ApiController]
 [Route("status")]

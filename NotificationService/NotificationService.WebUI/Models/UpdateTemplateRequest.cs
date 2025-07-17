@@ -1,3 +1,3 @@
-namespace NotificationService.WebUI.Models;
+namespace CertMailer.NotificationService.WebUI.Models;
 
 public record UpdateTemplateRequest(string Name, string Template);
