@@ -45,6 +45,10 @@
                                 <label>Subject template</label>
                                 <select class="form-select" aria-label="Subject template select" name="subjectTemplateId" id="subjectTemplates"></select>
                             </div>
+                            <div class="col">
+                                <label>Certificate template</label>
+                                <select class="form-select" aria-label="Certificate template select" name="certificateTemplateId" id="certificateTemplates"></select>
+                            </div>
                         </section>
                         <section>
                             <button id="excelSubmit" class="btn btn-primary" type="button">
@@ -78,7 +82,7 @@
                 </div>
                 <!-- Certificate templates -->
                 <div class="tab-pane fade" id="cert-templates-tab-pane" role="tabpanel" aria-labelledby="cert-templates-tab" tabindex="1">
-                    <ul class="list-group" id="cerrtTemplatesList"></ul>
+                    <ul class="list-group" id="certTemplatesList"></ul>
                 </div>
             </div>
         </div>
@@ -87,12 +91,14 @@
         <script src="scripts/config.js"></script>
         <script src="scripts/data.js"></script>
         <script src="scripts/templates.js"></script>
+        <script src="scripts/certTemplates.js"></script>
         <script src="scripts/jobs.js"></script>
         <script>
             const el = {
                 excelForm: null,
                 excelSubmit: null,
-                templatesList: null
+                templatesList: null,
+                certTemplatesList: null
             };
 
             const jobTable = new JobTable(document.getElementById('jobTable'));
@@ -144,16 +150,21 @@
                 el.excelForm = document.getElementById('excelForm');
                 el.excelSubmit = document.getElementById('excelSubmit');
                 el.templatesList = document.getElementById('templatesList');
+                el.certTemplatesList = document.getElementById('certTemplatesList');
 
                 el.excelSubmit.addEventListener('click', handleUpload);
 
                 templates.updateTemplateOptions(document.getElementById('mailTemplates'), getData().templates, 1);
                 templates.updateTemplateOptions(document.getElementById('subjectTemplates'), getData().templates, 2);
                 templates.updateTemplateList(el.templatesList, getData().templates);
+
+                certTemplates.updateTemplateOptions(document.getElementById('certificateTemplates'), getData().certTemplates, 1);
+                certTemplates.updateTemplateList(el.certTemplatesList, getData().certTemplates);
             };
 
             const setupApp = async () => {
                 getData().templates = await templates.fetchTemplates();
+                getData().certTemplates = await certTemplates.fetchTemplates();
                 setupElements();
                 await jobTable.fillTable();
                 jobTable.startUpdating();
