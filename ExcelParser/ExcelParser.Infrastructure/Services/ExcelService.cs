@@ -19,22 +19,48 @@ public class ExcelService : IExcelService
     public async Task<IResult<IEnumerable<Participant>>> ParseAsync(Stream stream, string sheetName)
     {
         using var package = new ExcelPackage();
-        await package
-            .LoadAsync(stream)
-            .ConfigureAwait(false);
+
+        try
+        {
+            await package
+                .LoadAsync(stream)
+                .ConfigureAwait(false);
+        }
+        catch (InvalidDataException ex)
+        {
+            return Result<IEnumerable<Participant>>.Fail([$"Invalid XLSX file: {ex.Message}"]);
+        }
 
         return Parse(package, sheetName);
     }
 
     public IResult<IEnumerable<Participant>> Parse(Memory<byte> buffer)
     {
-        using var package = new ExcelPackage(buffer.AsStream());
+        using var package = new ExcelPackage();
+
+        try
+        {
+            package.Load(buffer.AsStream());
+        }
+        catch (InvalidDataException ex)
+        {
+            return Result<IEnumerable<Participant>>.Fail([$"Invalid XLSX file: {ex.Message}"]);
+        }
+
         return Parse(package);
     }
 
     public IResult<IEnumerable<Participant>> Parse(Memory<byte> buffer, string sheetName)
     {
-        using var package = new ExcelPackage(buffer.AsStream());
+        using var package = new ExcelPackage();
+        try
+        {
+            package.Load(buffer.AsStream());
+        }
+        catch (InvalidDataException ex)
+        {
+            return Result<IEnumerable<Participant>>.Fail([$"Invalid XLSX file: {ex.Message}"]);
+        }
         return Parse(package, sheetName);
     }
 
