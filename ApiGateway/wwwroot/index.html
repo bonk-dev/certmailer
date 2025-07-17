@@ -1,1 +1,77 @@
-<p>Test</p>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CertMailer</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="vendor/bootstrap/bootstrap-5.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        
+        <div class="container">
+            <form id="excelForm">
+                <section class="mb-3">
+                    <label for="excelFile" class="form-label">Excel (.xlsx) file containing the participants list</label>
+                    <input class="form-control" type="file" name="files">
+                </section>
+                <section class="mb-3 row">
+                    <div class="col">
+                        <label>Mail body template</label>
+                        <select class="form-select" aria-label="Mail template select" name="mailTemplateId">
+                            <option value="1" selected>Default (id: 1)</option>
+                            <option value="2">Default (subject) (id: 2)</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label>Subject template</label>
+                        <select class="form-select" aria-label="Subject template select" name="subjectTemplateId">
+                            <option value="1">Default (id: 1)</option>
+                            <option value="2" selected>Default (subject) (id: 2)</option>
+                        </select>
+                    </div>
+                </section>
+                <section>
+                    <button id="excelSubmit" class="btn btn-primary" type="button">Upload</button>
+                </section>
+            </form>
+        </div>
+
+        <script src="vendor/bootstrap/bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            const API_BASE = "";
+            const el = {
+                excelForm: null,
+                excelSubmit: null
+            };
+
+            const handleUpload = async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const formData = new FormData(el.excelForm);
+                console.debug(formData);
+
+                try {
+                    const r = await fetch(`${API_BASE}/api/parser/upload`, {
+                        method: "POST",
+                        body: formData
+                    })
+                    const j = await r.json();
+                    console.debug(j);
+                } catch(e) {
+                    console.debug('Error while uploading excel file:');
+                    console.error(e);
+                }
+            };
+
+            const setupElements = () => {
+                el.excelForm = document.getElementById('excelForm');
+                el.excelSubmit = document.getElementById('excelSubmit');
+
+                el.excelSubmit.addEventListener('click', handleUpload);
+            };
+
+            setupElements();
+        </script>
+    </body>
+</html>
