@@ -108,4 +108,24 @@ public class ExcelServiceTests
         Assert.That(result.Errors, 
             Has.Some.EqualTo("Not enough columns in Participants"));
     }
+
+    [Test] 
+    public async Task TestParseFakeFile()
+    {
+        var testFilePath = Path.Combine(Directory.GetCurrentDirectory(), "TestFiles", "participants_not_real_file.xlsx");
+        Debug.WriteLine("TestParseFakeFile: {0}", testFilePath);
+
+        await using var stream = File.OpenRead(testFilePath);
+        var service = Testing.GetRequiredService<IExcelService>();
+        var result = await service.ParseAsync(stream, "Participants");
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Success, Is.False, "Parsing was successful");
+            Assert.That(result.Errors, Is.Not.Empty, "Parsing ended without errors");
+        });
+        
+        Assert.That(result.Errors, 
+            Has.Some.StartsWith("Invalid XLSX file:"));
+    }
 }
