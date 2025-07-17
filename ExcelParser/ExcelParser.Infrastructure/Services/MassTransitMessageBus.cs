@@ -22,7 +22,8 @@ public class MassTransitMessageBus : IMessageBus
             BatchId = excelParsedDto.BatchId,
             Participants = excelParsedDto.Participants,
             MailTemplateId = excelParsedDto.MailTemplateId,
-            SubjectTemplateId = excelParsedDto.SubjectTemplateId
+            SubjectTemplateId = excelParsedDto.SubjectTemplateId,
+            CertificateTemplateId = excelParsedDto.CertificateTemplateId
         });
     }
 }

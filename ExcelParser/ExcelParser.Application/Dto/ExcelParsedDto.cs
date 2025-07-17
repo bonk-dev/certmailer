@@ -8,4 +8,5 @@ public class ExcelParsedDto
     public required ParticipantDto[] Participants { get; set; }
     public int? MailTemplateId { get; set; }
     public int? SubjectTemplateId { get; set; }
+    public int? CertificateTemplateId { get; set; }
 }

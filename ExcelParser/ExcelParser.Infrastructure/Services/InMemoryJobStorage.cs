@@ -33,6 +33,7 @@ public class InMemoryJobStorage : IJobStorage
             Data = buffer,
             MailTemplateId = jobCreationDto.MailTemplateId,
             SubjectTemplateId = jobCreationDto.SubjectTemplateId,
+            CertificateTemplateId = jobCreationDto.CertificateTemplateId,
             Result = null
         };
         _storedFiles.Add(guid, job);

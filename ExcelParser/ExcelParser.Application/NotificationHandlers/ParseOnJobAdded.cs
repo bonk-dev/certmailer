@@ -66,7 +66,8 @@ public class ParseOnJobAdded : INotificationHandler<JobAddedNotification>
                 BatchId = job.BatchId,
                 Participants = participantDtos,
                 MailTemplateId = job.MailTemplateId,
-                SubjectTemplateId = job.SubjectTemplateId
+                SubjectTemplateId = job.SubjectTemplateId,
+                CertificateTemplateId = job.CertificateTemplateId
             };
             await _messageBus.PublishExcelParsedAsync(eventDto);
         }
