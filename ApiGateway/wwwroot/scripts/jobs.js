@@ -57,7 +57,7 @@ class Job {
         }
 
         this.rowElement.innerHTML = `
-        <th scope="row" class="${childrenClass}">${this.id}</th>
+        <th scope="row" class="${childrenClass} text-break-all">${this.id}</th>
         <td class="${childrenClass}">${this.status.participantsParsed}</td>
         <td class="${childrenClass}">${this.status.certificatesGenerated}</td>
         <td class="${childrenClass}">${this.status.mailsSent}</td>
