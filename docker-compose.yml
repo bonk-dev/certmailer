@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    container_name: mail-server
+    ports:
+      # smtp4dev management UI
+      - '5005:80'
+
+  excel_parser:
+    build:
+      context: ./
+      dockerfile: ExcelParser/Dockerfile
+    container_name: excel-parser
+    volumes:
+      - ./docker-config/excel-parser.json:/app/appsettings.json:ro
+    depends_on:
+      - rabbitmq
+
+  certificate_gen:
+    build:
+      context: ./
+      dockerfile: CertificateGen/Dockerfile
+    container_name: certificate-gen
+    volumes:
+      - ./docker-config/certificate-gen.json:/app/appsettings.json:ro
+      - /tmp/certmailer-blobs:/srv/certmailer
+    depends_on:
+      - rabbitmq
+
+  notification_service:
+    build:
+      context: ./
+      dockerfile: NotificationService/Dockerfile
+    container_name: notification-service
+    volumes:
+      - ./docker-config/notification-service.json:/app/appsettings.json:ro
+      - /tmp/certmailer-blobs:/srv/certmailer
+    depends_on:
+      - rabbitmq
+      - smtp4dev  
+
+  gateway:
+    build:
+      context: ./
+      dockerfile: ApiGateway/Dockerfile
+    container_name: api-gateway
+    volumes:
+      - ./docker-config/gateway.json:/app/appsettings.json:ro
+    ports:
+      - "5004:8080"
+    depends_on:
+      - notification_service
+      - excel_parser
+      - certificate_gen
+
+networks:
+  default:
+    driver: bridge
