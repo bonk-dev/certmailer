@@ -23,6 +23,7 @@ public class TemplateEndpoint : ControllerBase
     [HttpPost("")]
     public async Task<IActionResult> OnPostAddTemplateAsync([FromForm] AddTemplateRequest request)
     {
+        bool result;
         if (request.BackgroundFile != null)
         {
             await using var stream = request.BackgroundFile?.OpenReadStream();
@@ -34,8 +35,7 @@ public class TemplateEndpoint : ControllerBase
                 Description = request.Description,
                 BackgroundImage = stream
             };
-            await _mediator.Send(command);
-            return Ok();
+            result = await _mediator.Send(command);
         }
         else
         {
@@ -46,14 +46,18 @@ public class TemplateEndpoint : ControllerBase
                 Subtitle = request.Subtitle,
                 Description = request.Description
             };
-            await _mediator.Send(command);
-            return Ok();
+            result = await _mediator.Send(command);
         }
+
+        return result
+            ? Ok()
+            : BadRequest();
     }
     
     [HttpPut("{id}")]
     public async Task<IActionResult> OnPutAddTemplateAsync(int id, [FromForm] AddTemplateRequest request)
     {
+        bool result;
         if (request.BackgroundFile != null)
         {
             await using var stream = request.BackgroundFile?.OpenReadStream();
@@ -66,8 +70,7 @@ public class TemplateEndpoint : ControllerBase
                 Description = request.Description,
                 BackgroundImage = stream
             };
-            await _mediator.Send(command);
-            return Ok();
+            result = await _mediator.Send(command);
         }
         else
         {
@@ -79,9 +82,12 @@ public class TemplateEndpoint : ControllerBase
                 Subtitle = request.Subtitle,
                 Description = request.Description
             };
-            await _mediator.Send(command);
-            return Ok();
+            result = await _mediator.Send(command);
         }
+        
+        return result
+            ? Ok()
+            : BadRequest();
     }
 
     [HttpGet("{id}/background")]

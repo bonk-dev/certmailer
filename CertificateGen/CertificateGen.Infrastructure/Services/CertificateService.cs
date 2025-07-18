@@ -3,11 +3,25 @@ using CertMailer.CertificateGen.Application.Models;
 using CertMailer.Shared.Domain.Entities;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace CertMailer.CertificateGen.Infrastructure.Services;
 
 public class CertificateService : ICertificateService
 {
+    public bool VerifyImage(Stream stream)
+    {
+        try
+        {
+            _ = Image.FromStream(stream);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public void GeneratePdf(Participant participant, Stream stream) => 
         GeneratePdf(participant, stream, CertificateOptions.Default);
 
@@ -20,6 +34,7 @@ public class CertificateService : ICertificateService
     private Document CreateQuestPdfDocument(Participant participant, CertificateOptions options)
     {
         // TODO: Add templated layouts etc.
+        // TODO: Image should be cached for the entire batchId
         return Document.Create(d =>
         {
             d.Page(p =>
