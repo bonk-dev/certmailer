@@ -1,10 +1,13 @@
 const templates = {};
 (() => {
+    let templateList;
+
     const updateTemplateOptions = (selectElement, templates, defaultId) => {
         const optionElements = templates.map(t => `<option value="${t.id}" ${defaultId == t.id ? 'selected' : ''}>${t.name} (id: ${t.id})</option>`);
         selectElement.innerHTML = optionElements.join('\n');
     };
     const updateTemplateList = (containerElement, templates) => {
+        templateList = containerElement;
         const items = templates.map(t => {
             const editBoxContainerId = `templateId${t.id}`;
             const editBoxId = `${editBoxContainerId}Text`;
@@ -44,6 +47,8 @@ const templates = {};
             errString = validationErrorsToString(await r.json());
             alert(`Could not save template: \n${errString}`);
         }
+
+        updateTemplateList(templateList, await fetchTemplates());
     };
     const fetchTemplates = async () => {
         const r = await fetch(`${API_BASE}/api/notifications/template/all`);
