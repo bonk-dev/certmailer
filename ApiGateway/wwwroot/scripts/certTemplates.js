@@ -73,7 +73,8 @@ const certTemplates = {};
         });
 
         if (r.status !== 200) {
-            alert("Could not save template (invalid background file)");
+            errString = validationErrorsToString(await r.json());
+            alert(`Could not save template: \n${errString}`);
         }
 
         updateTemplateList(templateList, await fetchTemplates());
