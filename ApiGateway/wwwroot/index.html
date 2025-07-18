@@ -131,9 +131,6 @@
                     else if (r.status != 200) {
                         console.error('Unknown error while creating job, status code: ' + r.status);
                     }
-                    else {
-                        jobTable.addJobById(j['batchId']);
-                    }
                 } catch(e) {
                     console.debug('Error while uploading excel file:');
                     console.error(e);
