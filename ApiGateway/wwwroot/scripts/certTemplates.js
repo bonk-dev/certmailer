@@ -67,10 +67,14 @@ const certTemplates = {};
     const saveTemplate = async (id) => {
         const form = document.getElementById(`certTemplateId${id}Form`);
         const data = new FormData(form);
-        await fetch(`${API_BASE}/api/certificates/templates/${id}`, {
+        const r = await fetch(`${API_BASE}/api/certificates/templates/${id}`, {
             method: "PUT",
             body: data
         });
+
+        if (r.status !== 200) {
+            alert("Could not save template (invalid background file)");
+        }
 
         updateTemplateList(templateList, await fetchTemplates());
     };
