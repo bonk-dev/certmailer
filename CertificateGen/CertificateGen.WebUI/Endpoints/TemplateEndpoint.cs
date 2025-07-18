@@ -1,9 +1,9 @@
-using CertificateGen.WebUI.Models;
 using CertMailer.CertificateGen.Application.Commands.Templates;
+using CertMailer.CertificateGen.WebUI.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CertificateGen.WebUI.Endpoints;
+namespace CertMailer.CertificateGen.WebUI.Endpoints;
 
 [ApiController]
 [Route("templates")]

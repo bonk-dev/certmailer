@@ -1,4 +1,4 @@
-namespace CertificateGen.WebUI.Models;
+namespace CertMailer.CertificateGen.WebUI.Models;
 
 public class AddTemplateRequest
 {

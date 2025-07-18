@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace CertificateGen.WebUI.Endpoints;
+namespace CertMailer.CertificateGen.WebUI.Endpoints;
 
 [ApiController]
 [Route("status")]
