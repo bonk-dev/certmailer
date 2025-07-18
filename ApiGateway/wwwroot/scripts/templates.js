@@ -32,13 +32,18 @@ const templates = {};
     };
     const saveTemplate = async (id) => {
         const t = getData().templates.find(t => t.id == id);
-        await fetch(`${API_BASE}/api/notifications/template/${id}`, {
+        const r = await fetch(`${API_BASE}/api/notifications/template/${id}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(t)
         });
+
+        if (r.status !== 200) {
+            errString = validationErrorsToString(await r.json());
+            alert(`Could not save template: \n${errString}`);
+        }
     };
     const fetchTemplates = async () => {
         const r = await fetch(`${API_BASE}/api/notifications/template/all`);
