@@ -63,6 +63,7 @@ class Job {
 
             this._html = {
                 showErrorButton: this.rowElement.querySelector('th > button'),
+                errorUl: this.rowElement.querySelector('th > .collapse ul'),
                 idSpan: this.rowElement.querySelector('th > span'),
                 parsedTd: this.rowElement.querySelector('td.parsed'),
                 certsTd: this.rowElement.querySelector('td.certs'),
@@ -84,6 +85,8 @@ class Job {
             this._html.emailsTd.classList.add(...errorClassName);
 
             this.rowElement.classList.add('error');
+
+            this._html.errorUl.innerHTML = this.errors.map(e => `<li>${e}</li>`).join('');
         }
     };
 }
