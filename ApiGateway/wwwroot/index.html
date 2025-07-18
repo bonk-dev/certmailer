@@ -117,6 +117,7 @@
                 const formData = new FormData(el.excelForm);
                 console.debug(formData);
 
+                let errString = "";
                 try {
                     const r = await fetch(`${API_BASE}/api/parser/upload`, {
                         method: "POST",
@@ -126,14 +127,14 @@
 
                     console.debug(j);
                     if (j['errors'] && j['errors'].length > 0) {
-                        console.error('Error while creating job');
-                        console.error(j['errors']);
+                        errString = 'Error while creating job: \n';
+                        errString += j['errors'].join('\n');
                     }
                     else if (r.status != 200) {
-                        console.error('Unknown error while creating job, status code: ' + r.status);
+                        errString = 'Unknown error while creating job, status code: ' + r.status;
                     }
                 } catch(e) {
-                    console.debug('Error while uploading excel file:');
+                    errString = 'Error while uploading excel file (check console)';
                     console.error(e);
                 } finally {
                     el.excelSubmit.disabled = false;
@@ -141,6 +142,11 @@
                         .querySelector('.spinner-border')
                         .classList
                         .add('visually-hidden');
+                }
+
+                if (errString) {
+                    console.error(errString);
+                    alert(errString);
                 }
             };
 
