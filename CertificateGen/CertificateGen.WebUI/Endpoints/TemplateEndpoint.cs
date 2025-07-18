@@ -51,7 +51,10 @@ public class TemplateEndpoint : ControllerBase
 
         return result
             ? Ok()
-            : BadRequest();
+            : ValidationProblem(new ValidationProblemDetails(new Dictionary<string, string[]>()
+            {
+                {"BackgroundFile", ["The background file was not a valid image"] }
+            }));
     }
     
     [HttpPut("{id}")]
@@ -84,10 +87,13 @@ public class TemplateEndpoint : ControllerBase
             };
             result = await _mediator.Send(command);
         }
-        
+
         return result
             ? Ok()
-            : BadRequest();
+            : ValidationProblem(new ValidationProblemDetails(new Dictionary<string, string[]>()
+            {
+                {"BackgroundFile", ["The background file was not a valid image"] }
+            }));
     }
 
     [HttpGet("{id}/background")]
