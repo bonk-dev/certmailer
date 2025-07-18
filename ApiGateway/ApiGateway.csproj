@@ -4,8 +4,8 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>CertMailer.ApiGateway.WebUI</RootNamespace>
-        <AssemblyName>CertMailer.ApiGateway.WebUI</AssemblyName>
+        <RootNamespace>CertMailer.ApiGateway</RootNamespace>
+        <AssemblyName>CertMailer.ApiGateway</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
