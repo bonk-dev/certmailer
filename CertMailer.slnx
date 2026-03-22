@@ -1,0 +1,31 @@
+<Solution>
+  <Folder Name="/ApiGateway/">
+    <Project Path="ApiGateway\ApiGateway.csproj" />
+  </Folder>
+  <Folder Name="/CertificateGen/">
+    <Project Path="CertificateGen\CertificateGen.Domain\CertificateGen.Domain.csproj" />
+    <Project Path="CertificateGen\CertificateGen.Application\CertificateGen.Application.csproj" />
+    <Project Path="CertificateGen\CertificateGen.Infrastructure\CertificateGen.Infrastructure.csproj" />
+    <Project Path="CertificateGen\CertificateGen.WebUI\CertificateGen.WebUI.csproj" />
+    <Project Path="CertificateGen\CertificateGen.Application.Tests\CertificateGen.Application.Tests.csproj" />
+  </Folder>
+  <Folder Name="/ExcelParser/">
+    <Project Path="ExcelParser\ExcelParser.Domain\ExcelParser.Domain.csproj" />
+    <Project Path="ExcelParser\ExcelParser.Application\ExcelParser.Application.csproj" />
+    <Project Path="ExcelParser\ExcelParser.Infrastructure\ExcelParser.Infrastructure.csproj" />
+    <Project Path="ExcelParser\ExcelParser.WebUI\ExcelParser.WebUI.csproj" />
+    <Project Path="ExcelParser\ExcelParser.Application.Tests\ExcelParser.Application.Tests.csproj" />
+  </Folder>
+  <Folder Name="/NotificationService/">
+    <Project Path="NotificationService\NotificationService.Domain\NotificationService.Domain.csproj" />
+    <Project Path="NotificationService\NotificationService.Application\NotificationService.Application.csproj" />
+    <Project Path="NotificationService\NotificationService.Infrastructure\NotificationService.Infrastructure.csproj" />
+    <Project Path="NotificationService\NotificationService.WebUI\NotificationService.WebUI.csproj" />
+    <Project Path="NotificationService\NotificationService.Application.Tests\NotificationService.Application.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="Shared\Shared.Domain\Shared.Domain.csproj" />
+    <Project Path="Shared\Shared.Application\Shared.Application.csproj" />
+    <Project Path="Shared\Shared.Infrastructure\Shared.Infrastructure.csproj" />
+  </Folder>
+</Solution>
