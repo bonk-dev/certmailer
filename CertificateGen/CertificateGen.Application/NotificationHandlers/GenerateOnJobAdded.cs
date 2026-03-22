@@ -1,5 +1,6 @@
 using CertMailer.CertificateGen.Application.Commands;
 using CertMailer.CertificateGen.Application.Models;
+using CertMailer.CertificateGen.Application.Queries;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -21,7 +22,7 @@ public class GenerateOnJobAdded : INotificationHandler<JobAddedNotification>
     public async Task Handle(JobAddedNotification notification, CancellationToken cancellationToken)
     {
         _logger.LogDebug("Handling JobAddedNotification: {0}", notification.BatchId);
-        var job = await _mediator.Send(new GetJobCommand
+        var job = await _mediator.Send(new GetJobQuery
         {
             BatchId = notification.BatchId
         }, cancellationToken);

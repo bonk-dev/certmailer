@@ -2,14 +2,14 @@ using CertMailer.CertificateGen.Application.Interfaces;
 using CertMailer.Shared.Application.Services;
 using MediatR;
 
-namespace CertMailer.CertificateGen.Application.Commands.Templates;
+namespace CertMailer.CertificateGen.Application.Queries;
 
-public class GetTemplateImageStreamCommand : IRequest<Stream?>
+public class GetTemplateImageStreamQuery : IRequest<Stream?>
 {
     public required int Id { get; set; }
 }
 
-public class GetTemplateImageStreamCommandHandler : IRequestHandler<GetTemplateImageStreamCommand, Stream?>
+public class GetTemplateImageStreamCommandHandler : IRequestHandler<GetTemplateImageStreamQuery, Stream?>
 {
     private readonly ITemplateRepository _repository;
     private readonly IBlobStorage _blobStorage;
@@ -20,7 +20,7 @@ public class GetTemplateImageStreamCommandHandler : IRequestHandler<GetTemplateI
         _blobStorage = blobStorage;
     }
     
-    public async Task<Stream?> Handle(GetTemplateImageStreamCommand request, CancellationToken cancellationToken)
+    public async Task<Stream?> Handle(GetTemplateImageStreamQuery request, CancellationToken cancellationToken)
     {
         var template = await _repository.GetTemplateAsync(request.Id);
         if (template == null || string.IsNullOrEmpty(template.BackgroundUri))

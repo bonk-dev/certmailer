@@ -1,6 +1,7 @@
 using CertMailer.CertificateGen.Application;
 using CertMailer.CertificateGen.Application.Commands;
 using CertMailer.CertificateGen.Application.Models;
+using CertMailer.CertificateGen.Application.Queries;
 using CertMailer.CertificateGen.Infrastructure;
 using CertMailer.Shared.Application.Dto;
 using Hangfire;
@@ -34,7 +35,7 @@ app.MapGet("/api/status/{batchId}", async (Guid batchId) =>
 {
     await using var scope = app.Services.CreateAsyncScope();
     var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-    var job = await mediator.Send(new GetJobCommand
+    var job = await mediator.Send(new GetJobQuery
     {
         BatchId = batchId
     });

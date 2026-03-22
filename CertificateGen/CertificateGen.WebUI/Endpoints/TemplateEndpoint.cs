@@ -1,4 +1,5 @@
-using CertMailer.CertificateGen.Application.Commands.Templates;
+using CertMailer.CertificateGen.Application.Commands;
+using CertMailer.CertificateGen.Application.Queries;
 using CertMailer.CertificateGen.WebUI.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ public class TemplateEndpoint : ControllerBase
 
     [HttpGet("all")]
     public async Task<IActionResult> OnGetAllTemplatesAsync() => 
-        Ok(await _mediator.Send(new GetAllTemplatesCommand()));
+        Ok(await _mediator.Send(new GetAllTemplatesQuery()));
 
     [HttpPost("")]
     public async Task<IActionResult> OnPostAddTemplateAsync([FromForm] AddTemplateRequest request)
@@ -99,7 +100,7 @@ public class TemplateEndpoint : ControllerBase
     [HttpGet("{id}/background")]
     public async Task<IActionResult> OnGetDownloadBackgroundAsync(int id)
     {
-        var stream = await _mediator.Send(new GetTemplateImageStreamCommand
+        var stream = await _mediator.Send(new GetTemplateImageStreamQuery
         {
             Id = id
         });
