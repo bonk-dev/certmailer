@@ -1,4 +1,12 @@
 <Solution>
+  <Folder Name="/Solution Files/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="docker-compose.yml" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
   <Folder Name="/ApiGateway/">
     <Project Path="ApiGateway\ApiGateway.csproj" />
   </Folder>
