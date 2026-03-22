@@ -5,18 +5,20 @@
 
   <PropertyGroup Label="Package Versions">
     <MicrosoftExtensionsVersion>10.0.5</MicrosoftExtensionsVersion>
-    <MassTransitVersion>8.5.1</MassTransitVersion>
-    <HangfireVersion>1.8.20</HangfireVersion>
-    <SwashbuckleVersion>9.0.3</SwashbuckleVersion>
+      
+    <!--do not update MassTransit to 9.x - license required-->
+    <MassTransitVersion>8.5.8</MassTransitVersion>
+    <HangfireVersion>1.8.23</HangfireVersion>
+    <SwashbuckleVersion>10.1.5</SwashbuckleVersion>
     <NUnitVersion>3.14.0</NUnitVersion>
   </PropertyGroup>
     
   <ItemGroup Label="Ocelot">
-      <PackageVersion Include="Ocelot" Version="24.0.0" />
+      <PackageVersion Include="Ocelot" Version="24.1.0" />
   </ItemGroup>
 
   <ItemGroup Label="MediatR">
-    <PackageVersion Include="MediatR" Version="13.0.0" />
+    <PackageVersion Include="MediatR" Version="14.1.0" />
     <PackageVersion Include="MediatR.Contracts" Version="2.0.1" />
   </ItemGroup>
 
@@ -51,12 +53,12 @@
   </ItemGroup>
 
   <ItemGroup Label="PDF">
-    <PackageVersion Include="QuestPDF" Version="2025.7.0" />
+    <PackageVersion Include="QuestPDF" Version="2026.2.4" />
   </ItemGroup>
 
   <ItemGroup Label="Excel">
-    <PackageVersion Include="EPPlus" Version="8.0.7" />
-    <PackageVersion Include="CommunityToolkit.HighPerformance" Version="8.4.0" />
+    <PackageVersion Include="EPPlus" Version="8.5.0" />
+    <PackageVersion Include="CommunityToolkit.HighPerformance" Version="8.4.1" />
   </ItemGroup>
 
   <ItemGroup Label="Mail">
