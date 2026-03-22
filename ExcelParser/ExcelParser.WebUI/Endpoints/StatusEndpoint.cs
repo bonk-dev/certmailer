@@ -1,5 +1,6 @@
 using CertMailer.ExcelParser.Application.Commands;
 using CertMailer.ExcelParser.Application.Dto;
+using CertMailer.ExcelParser.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,7 @@ public class StatusEndpoint : ControllerBase
     [HttpGet("{batchId}")]
     public async Task<IActionResult> OnGetJobStatusAsync(Guid batchId)
     {
-        var job = await _mediator.Send(new GetJobCommand
+        var job = await _mediator.Send(new GetJobQuery
         {
             BatchId = batchId
         });
@@ -54,7 +55,7 @@ public class StatusEndpoint : ControllerBase
     [HttpGet("all")]
     public async Task<IActionResult> OnGetAllJobsAsync()
     {
-        var jobs = await _mediator.Send(new GetAllJobsCommand());
+        var jobs = await _mediator.Send(new GetAllJobsQuery());
         return Ok(jobs.Select(j => new JobDto(j.BatchId, j.JobStatus, j.Result?.Errors)));
     }
 }
