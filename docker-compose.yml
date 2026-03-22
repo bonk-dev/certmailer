@@ -5,6 +5,11 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
       
   smtp4dev:
     image: rnwood/smtp4dev:v3
@@ -21,7 +26,8 @@ services:
     volumes:
       - ./docker-config/excel-parser.json:/app/appsettings.json:ro
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
 
   certificate_gen:
     build:
@@ -32,7 +38,8 @@ services:
       - ./docker-config/certificate-gen.json:/app/appsettings.json:ro
       - /tmp/certmailer-blobs:/srv/certmailer
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
 
   notification_service:
     build:
@@ -43,8 +50,10 @@ services:
       - ./docker-config/notification-service.json:/app/appsettings.json:ro
       - /tmp/certmailer-blobs:/srv/certmailer
     depends_on:
-      - rabbitmq
-      - smtp4dev  
+      rabbitmq:
+        condition: service_healthy
+      smtp4dev:
+        condition: service_started  
 
   gateway:
     build:
