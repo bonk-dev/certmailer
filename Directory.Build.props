@@ -1,0 +1,29 @@
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+    
+  <!--<PropertyGroup> TODO: uncomment when done refacotring
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>-->
+    
+  <PropertyGroup>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditLevel>moderate</NuGetAuditLevel>
+    <NuGetAuditMode>all</NuGetAuditMode>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Nullable>warnings</Nullable>
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+</Project>
