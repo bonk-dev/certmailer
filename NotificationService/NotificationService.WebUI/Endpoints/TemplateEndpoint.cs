@@ -1,4 +1,5 @@
 using CertMailer.NotificationService.Application.Commands;
+using CertMailer.NotificationService.Application.Queries;
 using CertMailer.NotificationService.WebUI.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ public class TemplateEndpoint : ControllerBase
     [HttpGet("all")]
     public async Task<IActionResult> GetAllTemplatesAsync()
     {
-        var command = new GetAllTemplatesCommand();
+        var command = new GetAllTemplatesQuery();
         return Ok(await _mediator.Send(command));
     }
 

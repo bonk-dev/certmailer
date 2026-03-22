@@ -3,7 +3,7 @@ using CertMailer.CertificateGen.Domain.Entities;
 using CertMailer.Shared.Application.Services;
 using MediatR;
 
-namespace CertMailer.CertificateGen.Application.Commands.Templates;
+namespace CertMailer.CertificateGen.Application.Commands;
 
 public class AddOrUpdateTemplateCommand : IRequest<bool>
 {
