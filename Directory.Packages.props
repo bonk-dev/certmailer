@@ -1,0 +1,74 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package Versions">
+    <MicrosoftExtensionsVersion>9.0.7</MicrosoftExtensionsVersion>
+    <MassTransitVersion>8.5.1</MassTransitVersion>
+    <HangfireVersion>1.8.20</HangfireVersion>
+    <SwashbuckleVersion>9.0.3</SwashbuckleVersion>
+    <NUnitVersion>3.14.0</NUnitVersion>
+  </PropertyGroup>
+    
+  <ItemGroup Label="Ocelot">
+      <PackageVersion Include="Ocelot" Version="24.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="MediatR">
+    <PackageVersion Include="MediatR" Version="13.0.0" />
+    <PackageVersion Include="MediatR.Contracts" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup Label="MassTransit">
+    <PackageVersion Include="MassTransit" Version="$(MassTransitVersion)" />
+    <PackageVersion Include="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
+  </ItemGroup>
+
+  <ItemGroup Label="Hangfire">
+    <PackageVersion Include="Hangfire.AspNetCore" Version="$(HangfireVersion)" />
+    <PackageVersion Include="Hangfire.Core" Version="$(HangfireVersion)" />
+    <PackageVersion Include="Hangfire.InMemory" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="Swashbuckle">
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="$(SwashbuckleVersion)" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Swagger" Version="$(SwashbuckleVersion)" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerGen" Version="$(SwashbuckleVersion)" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="$(SwashbuckleVersion)" />
+  </ItemGroup>
+
+  <ItemGroup Label="Microsoft.Extensions">
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(MicrosoftExtensionsVersion)" />
+  </ItemGroup>
+
+  <ItemGroup Label="PDF">
+    <PackageVersion Include="QuestPDF" Version="2025.7.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="Excel">
+    <PackageVersion Include="EPPlus" Version="8.0.7" />
+    <PackageVersion Include="CommunityToolkit.HighPerformance" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="Mail">
+    <PackageVersion Include="MailKit" Version="4.13.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="Testing">
+    <PackageVersion Include="coverlet.collector" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageVersion Include="NUnit" Version="$(NUnitVersion)" />
+    <PackageVersion Include="NUnit.Analyzers" Version="3.9.0" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>
