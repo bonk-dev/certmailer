@@ -31,6 +31,8 @@
     <PackageVersion Include="Hangfire.AspNetCore" Version="$(HangfireVersion)" />
     <PackageVersion Include="Hangfire.Core" Version="$(HangfireVersion)" />
     <PackageVersion Include="Hangfire.InMemory" Version="1.0.0" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageVersion Include="Newtonsoft.Json.Bson" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup Label="Swashbuckle">
